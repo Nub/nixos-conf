@@ -75,6 +75,9 @@
     flameshot
     globalprotect-openconnect
     i3status-rust
+    nixfmt
+    ripgrep
+    htop
   ];
 
   fonts.fonts = with pkgs; [
