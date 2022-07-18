@@ -21,14 +21,7 @@
   services.openssh.enable = true;
 
   programs.ssh.startAgent = true;
-  services.avahi = {
-  	enable = true;
-	publish = {
-		enable = true;
-		addresses = true;
-		workstation = true;
-	};
-  };
+  programs.mosh.enable = true;
   services.globalprotect = {
     enable = true;
   };
@@ -58,6 +51,7 @@
       serayuzgur.crates
       usernamehw.errorlens
       eamodio.gitlens
+      github.github-vscode-theme
     ];})
     unzip
     rustup
