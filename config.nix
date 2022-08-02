@@ -36,9 +36,11 @@
     shell = pkgs.fish;
   };
 
-
   environment.systemPackages = with pkgs; [
     neovim
+    neovide
+    fd
+    wl-clipboard
     (vscode-with-extensions.override { vscodeExtensions = with vscode-extensions; [
       vadimcn.vscode-lldb
       matklad.rust-analyzer
@@ -72,6 +74,7 @@
     nixfmt
     ripgrep
     htop
+    zoom
   ];
 
   fonts.fonts = with pkgs; [
@@ -91,6 +94,11 @@
     "anduril-nix-cache:0FYOuMqEzbSX2PmByfePpJAsSV6CW+1YWoq7b21NxHc="
     "anduril-nix-polyrepo-cache:0FYOuMqEzbSX2PmByfePpJAsSV6CW+1YWoq7b21NxHc="
   ];
+
+  nix.package = pkgs.nixFlakes; # or versioned attributes like nixVersions.nix_2_8
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
 
   system.stateVersion = "22.05";
