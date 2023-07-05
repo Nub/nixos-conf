@@ -1,4 +1,11 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  unstable = import <nixos-unstable> { };
+  firefox-wayland = pkgs.writeShellScriptBin "firefox" ''
+    export MOZ_ENABLE_WAYLAND=1
+    exec ${unstable.firefox}/bin/firefox "$@"
+  '';
+in {
   imports = [ <home-manager/nixos> ];
 
   time.timeZone = "America/Los_Angeles";
@@ -37,7 +44,7 @@
         alacritty
         wofi
         waybar
-        firefox
+        firefox-wayland
         font-awesome
         (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
       ];
@@ -74,6 +81,10 @@
           target = ".config/wofi/style.css";
           source = ./dotfiles/wofi/style.css;
         };
+        mako = {
+          target = ".config/mako/config";
+          source = ./dotfiles/mako/config;
+        };
         waybar = {
           target = ".config/waybar/config";
           source = ./dotfiles/waybar/config;
@@ -85,6 +96,12 @@
       };
       wayland.windowManager.sway = {
         enable = true;
+        config = {
+          modifier = "Mod4";
+          terminal = "alacritty";
+          menu = "wofi --show run";
+          bars = [{ command = "waybar"; }];
+        };
         extraConfig = builtins.readFile ./dotfiles/sway/config;
       };
     };
