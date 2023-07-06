@@ -18,7 +18,7 @@ bindsym $mod+Shift+Return exec $browser
 bindsym $mod+Alt+l exec $lock
 
 # Visual
-gaps inner 0
+gaps inner 8
 font pango: Iosevka 9
 default_border pixel 2
 
@@ -38,6 +38,8 @@ output DP-3 resolution 3840x2160@59.997Hz
 output DP-4 resolution 3840x2160@59.997Hz
 output DP-4 transform 270
 output * scale 1.5
+# output * background '~/.config/wallpaper.png' fill
+exec glpaper -f 60 DP-3 worley.frag
 focus output DP-3
 
 set $lock swaylock --clock --indicator --screenshots --effect-scale 0.4 --effect-vignette 0.2:0.5 --effect-blur 4x2 --datestr "%a %e.%m.%Y" --timestr "%k:%M" -c 550000

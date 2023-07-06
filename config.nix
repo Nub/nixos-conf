@@ -37,6 +37,7 @@ in {
     users.zthayer = { pkgs, ... }: {
       home.stateVersion = "23.05";
       home.packages = with pkgs; [
+        glpaper
         swaylock-effects
         swayidle
         wl-clipboard
@@ -54,9 +55,42 @@ in {
           enable = true;
           interactiveShellInit = "fish_add_path /home/zthayer/.local/bin:$PATH";
         };
-        neovim = {
+        neovim = let
+          parsers = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+            rust
+            c
+            cpp
+            python
+            haskell
+            dhall
+            nix
+            json
+            toml
+            yaml
+            html
+            css
+            java
+            javascript
+            regex
+            proto
+            markdown
+            make
+            go
+            ron
+            ini
+            fish
+            glsl
+            lua
+          ];
+        in {
           enable = true;
           vimAlias = true;
+          defaultEditor = true;
+          plugins = with pkgs.vimPlugins; [
+            nvim-treesitter
+            telescope-nvim
+            telescope-fzf-native-nvim
+          ] ++ parsers;
         };
         tmux = {
           enable = true;
@@ -72,9 +106,51 @@ in {
         };
         alacritty = {
           enable = true;
-          settings = { font = { size = 14.0; }; };
-        };
+          settings = {
+            font = { size = 14.0; };
 
+            window = {
+              opacity = 0.85;
+              padding = {
+                x = 16;
+                y = 16;
+              };
+            };
+
+            live_config_reload = true;
+
+            colors = {
+              # Default colors
+              primary = {
+                background = "0x1b182c";
+                foreground = "0xcbe3e7";
+              };
+              # Normal colors
+              normal = {
+                black = "0x100e23";
+                red = "0xff8080";
+                green = "0x95ffa4";
+                yellow = "0xffe9aa";
+                blue = "0x91ddff";
+                magenta = "0xc991e1";
+                cyan = "0xaaffe4";
+                white = "0xcbe3e7";
+              };
+
+              # Bright colors
+              bright = {
+                black = "0x565575";
+                red = "0xff5458";
+                green = "0x62d196";
+                yellow = "0xffb378";
+                blue = "0x65b2ff";
+                magenta = "0x906cff";
+                cyan = "0x63f2f1";
+                white = "0xa6b3cc";
+              };
+            };
+          };
+        };
       };
       home.file = {
         wofi = {
@@ -92,6 +168,10 @@ in {
         waybar-css = {
           target = ".config/waybar/style.css";
           source = ./dotfiles/waybar/style.css;
+        };
+        wallpaper = {
+          target = ".config/wallpaper.png";
+          source = ./wallpaper.png;
         };
       };
       wayland.windowManager.sway = {
