@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
-let
-  unstable = import <nixos-unstable> { };
-  firefox-wayland = pkgs.writeShellScriptBin "firefox" ''
-    export MOZ_ENABLE_WAYLAND=1
-    exec ${unstable.firefox}/bin/firefox "$@"
-  '';
+let unstable = import <nixos-unstable> {};
+sway-nvidia = pkgs.callPackage (import ./sway.nix) {};
 in {
   imports = [ <home-manager/nixos> ];
 
@@ -36,6 +32,10 @@ in {
     useGlobalPkgs = true;
     users.zthayer = { pkgs, ... }: {
       home.stateVersion = "23.05";
+      home.sessionVariables = {
+        MOZ_ENABLE_WAYLAND = 1;
+        XDG_CURRENT_DESKTOP = "sway";
+      };
       home.packages = with pkgs; [
         glpaper
         swaylock-effects
@@ -45,7 +45,8 @@ in {
         alacritty
         wofi
         waybar
-        firefox-wayland
+        unstable.firefox
+        slack
         font-awesome
         (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
       ];
@@ -176,6 +177,7 @@ in {
       };
       wayland.windowManager.sway = {
         enable = true;
+        package = sway-nvidia;
         config = {
           modifier = "Mod4";
           terminal = "alacritty";

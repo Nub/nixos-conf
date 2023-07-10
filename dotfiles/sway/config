@@ -3,9 +3,12 @@ set $mod Mod4
 set $term alacritty
 set $browser firefox
 
+set $dp_main DP-4
+set $dp_second Unknown-1
+
 # Default workspace
-workspace 1 output DP-3
-workspace 9 output DP-4
+workspace 1 output $dp_main
+workspace 9 output $dp_second
 
 workspace 9
 exec firefox
@@ -34,13 +37,13 @@ client.unfocused        $cl_back $cl_back $cl_fore $cl_back $cl_back
 client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 # Display
-output DP-3 resolution 3840x2160@59.997Hz
-output DP-4 resolution 3840x2160@59.997Hz
-output DP-4 transform 270
+output $dp_main resolution 3840x2160@59.997Hz
+output $dp_second resolution 3840x2160@59.997Hz
+output $dp_second transform 270
 output * scale 1.5
-# output * background '~/.config/wallpaper.png' fill
-exec glpaper -f 60 DP-3 worley.frag
-focus output DP-3
+output * background '~/.config/wallpaper.png' fill
+# exec glpaper -f 60 DP-3 worley.frag
+focus output $dp_main
 
 set $lock swaylock --clock --indicator --screenshots --effect-scale 0.4 --effect-vignette 0.2:0.5 --effect-blur 4x2 --datestr "%a %e.%m.%Y" --timestr "%k:%M" -c 550000
 exec swayidle -w \
