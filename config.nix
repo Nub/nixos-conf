@@ -1,8 +1,14 @@
 { config, pkgs, ... }:
 let unstable = import <nixos-unstable> {};
 sway-nvidia = pkgs.callPackage (import ./sway.nix) {};
+flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
+hyprland = (import flake-compat {
+  src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
+}).defaultNix;
 in {
-  imports = [ <home-manager/nixos> ];
+  imports = [ 
+    <home-manager/nixos>
+  ];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -31,10 +37,14 @@ in {
     useUserPackages = true;
     useGlobalPkgs = true;
     users.zthayer = { pkgs, ... }: {
+      imports = [
+        hyprland.homeManagerModules.default
+      ];
       home.stateVersion = "23.05";
       home.sessionVariables = {
         MOZ_ENABLE_WAYLAND = 1;
         XDG_CURRENT_DESKTOP = "sway";
+        GBM_BACKENDS_PATHS = "/etc/gmb";
       };
       home.packages = with pkgs; [
         glpaper
@@ -45,12 +55,45 @@ in {
         alacritty
         wofi
         waybar
-        unstable.firefox
+        unstable.firefox-wayland
         slack
+        fd
+        unzip
+        rustup
+        zip
+        wget
+        fzf
+        bat
+        jq
+        usbutils
+        can-utils
+        flameshot
+        nixfmt
+        ripgrep
+        htop
+        zoom
+        tmux
+        xfce.thunar
+        xfce.thunar-archive-plugin
+        xfce.thunar-volman
+        wayland
+        xdg-utils
+        glib
+        dracula-theme
+        gnome3.adwaita-icon-theme
+        grim
+        slurp
+        bemenu
+        wdisplays
         font-awesome
         (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+
       ];
       programs = {
+        firefox = {
+          enable = true;
+          package = unstable.firefox-wayland;
+        };
         home-manager.enable = true;
         fish = {
           enable = true;
@@ -175,6 +218,14 @@ in {
           source = ./wallpaper.png;
         };
       };
+      wayland.windowManager.hyprland = {
+        enable = true;
+        extraConfig = ''
+          bind = SUPER, Return, exec, alacritty 
+          bind = SUPER_SHIFT, Return, exec, firefox
+          bind = SUPER, Space, exec, wofi --show run 
+        '';
+      };
       wayland.windowManager.sway = {
         enable = true;
         package = sway-nvidia;
@@ -185,6 +236,23 @@ in {
           bars = [{ command = "waybar"; }];
         };
         extraConfig = builtins.readFile ./dotfiles/sway/config;
+        extraOptions = [
+              "--unsupported-gpu"
+              "--my-next-gpu-wont-be-nvidia"
+            ];
+        extraSessionCommands = ''
+            export MOZ_ENABLE_WAYLAND=1
+            export QT_QPA_PLATFORM=wayland
+            export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+            export SDL_VIDEODRIVER=wayland
+            export XDG_CURRENT_DESKTOP="sway"
+            export XDG_SESSION_TYPE="wayland"
+            export _JAVA_AWT_WM_NONREPARENTING=1
+            export GBM_BACKEND=nvidia-drm
+            export GBM_BACKENDS_PATH=/etc/gbm
+            export __GLX_VENDOR_LIBRARY_NAME=nvidia
+            export WLR_NO_HARDWARE_CURSORS=1
+          '';
       };
     };
   };
@@ -208,52 +276,20 @@ in {
     openssh.enable = true;
   };
   sound.enable = true;
+
   programs.ssh.startAgent = true;
 
-  environment.systemPackages = with pkgs; [
-    fd
-    unzip
-    rustup
-    zip
-    wget
-    git
-    fzf
-    bat
-    jq
-    usbutils
-    can-utils
-    flameshot
-    nixfmt
-    ripgrep
-    htop
-    zoom
-    tmux
-    xfce.thunar
-    wayland
-    xdg-utils
-    glib
-    dracula-theme
-    gnome3.adwaita-icon-theme
-    grim
-    slurp
-    bemenu
-    wdisplays
-  ];
-
   nixpkgs.config.allowUnfree = true;
-
   nix.settings.substituters = [
     "https://cache.nixos.org/"
     "https://s3-us-west-2.amazonaws.com/anduril-nix-cache"
     "https://s3-us-west-2.amazonaws.com/anduril-nix-polyrepo-cache"
   ];
-
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "anduril-nix-cache:0FYOuMqEzbSX2PmByfePpJAsSV6CW+1YWoq7b21NxHc="
     "anduril-nix-polyrepo-cache:0FYOuMqEzbSX2PmByfePpJAsSV6CW+1YWoq7b21NxHc="
   ];
-
   nix.package =
     pkgs.nixFlakes; # or versioned attributes like nixVersions.nix_2_8
   nix.extraOptions = ''
