@@ -2,9 +2,9 @@
 let unstable = import <nixos-unstable> {};
 sway-nvidia = pkgs.callPackage (import ./sway.nix) {};
 flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
-hyprland = (import flake-compat {
-  src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
-}).defaultNix;
+# hyprland = (import flake-compat {
+#   src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
+# }).defaultNix;
 in {
   imports = [ 
     <home-manager/nixos>
@@ -37,9 +37,9 @@ in {
     useUserPackages = true;
     useGlobalPkgs = true;
     users.zthayer = { pkgs, ... }: {
-      imports = [
-        hyprland.homeManagerModules.default
-      ];
+      # imports = [
+      #   hyprland.homeManagerModules.default
+      # ];
       home.stateVersion = "23.05";
       home.sessionVariables = {
         MOZ_ENABLE_WAYLAND = 1;
@@ -218,14 +218,14 @@ in {
           source = ./wallpaper.png;
         };
       };
-      wayland.windowManager.hyprland = {
-        enable = true;
-        extraConfig = ''
-          bind = SUPER, Return, exec, alacritty 
-          bind = SUPER_SHIFT, Return, exec, firefox
-          bind = SUPER, Space, exec, wofi --show run 
-        '';
-      };
+      # wayland.windowManager.hyprland = {
+      #   enable = true;
+      #   extraConfig = ''
+      #     bind = SUPER, Return, exec, alacritty 
+      #     bind = SUPER_SHIFT, Return, exec, firefox
+      #     bind = SUPER, Space, exec, wofi --show run 
+      #   '';
+      # };
       wayland.windowManager.sway = {
         enable = true;
         package = sway-nvidia;
