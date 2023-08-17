@@ -42,9 +42,11 @@ in {
       # ];
       home.stateVersion = "23.05";
       home.sessionVariables = {
-        MOZ_ENABLE_WAYLAND = 1;
-        XDG_CURRENT_DESKTOP = "sway";
-        GBM_BACKENDS_PATHS = "/etc/gmb";
+        # MOZ_ENABLE_WAYLAND = 1;
+        # XDG_CURRENT_DESKTOP = "sway";
+        # GBM_BACKENDS_PATHS = "/etc/gmb";
+        BROWSER = "firefox";
+        TERMINAL = "alacritty";
       };
       home.packages = with pkgs; [
         glpaper
@@ -196,28 +198,28 @@ in {
           };
         };
       };
-      home.file = {
-        wofi = {
-          target = ".config/wofi/style.css";
-          source = ./dotfiles/wofi/style.css;
-        };
-        mako = {
-          target = ".config/mako/config";
-          source = ./dotfiles/mako/config;
-        };
-        waybar = {
-          target = ".config/waybar/config";
-          source = ./dotfiles/waybar/config;
-        };
-        waybar-css = {
-          target = ".config/waybar/style.css";
-          source = ./dotfiles/waybar/style.css;
-        };
-        wallpaper = {
-          target = ".config/wallpaper.png";
-          source = ./wallpaper.png;
-        };
-      };
+      # home.file = {
+      #   wofi = {
+      #     target = ".config/wofi/style.css";
+      #     source = ./dotfiles/wofi/style.css;
+      #   };
+      #   mako = {
+      #     target = ".config/mako/config";
+      #     source = ./dotfiles/mako/config;
+      #   };
+      #   waybar = {
+      #     target = ".config/waybar/config";
+      #     source = ./dotfiles/waybar/config;
+      #   };
+      #   waybar-css = {
+      #     target = ".config/waybar/style.css";
+      #     source = ./dotfiles/waybar/style.css;
+      #   };
+      #   wallpaper = {
+      #     target = ".config/wallpaper.png";
+      #     source = ./wallpaper.png;
+      #   };
+      # };
       # wayland.windowManager.hyprland = {
       #   enable = true;
       #   extraConfig = ''
@@ -226,35 +228,47 @@ in {
       #     bind = SUPER, Space, exec, wofi --show run 
       #   '';
       # };
-      wayland.windowManager.sway = {
-        enable = true;
-        package = sway-nvidia;
-        config = {
-          modifier = "Mod4";
-          terminal = "alacritty";
-          menu = "wofi --show run";
-          bars = [{ command = "waybar"; }];
-        };
-        extraConfig = builtins.readFile ./dotfiles/sway/config;
-        extraOptions = [
-              "--unsupported-gpu"
-              "--my-next-gpu-wont-be-nvidia"
-            ];
-        extraSessionCommands = ''
-            export MOZ_ENABLE_WAYLAND=1
-            export QT_QPA_PLATFORM=wayland
-            export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-            export SDL_VIDEODRIVER=wayland
-            export XDG_CURRENT_DESKTOP="sway"
-            export XDG_SESSION_TYPE="wayland"
-            export _JAVA_AWT_WM_NONREPARENTING=1
-            export GBM_BACKEND=nvidia-drm
-            export GBM_BACKENDS_PATH=/etc/gbm
-            export __GLX_VENDOR_LIBRARY_NAME=nvidia
-            export WLR_NO_HARDWARE_CURSORS=1
-          '';
-      };
+      # wayland.windowManager.sway = {
+      #   enable = true;
+      #   package = sway-nvidia;
+      #   config = {
+      #     modifier = "Mod4";
+      #     terminal = "alacritty";
+      #     menu = "wofi --show run";
+      #     bars = [{ command = "waybar"; }];
+      #   };
+      #   extraConfig = builtins.readFile ./dotfiles/sway/config;
+      #   extraOptions = [
+      #         "--unsupported-gpu"
+      #         "--my-next-gpu-wont-be-nvidia"
+      #       ];
+      #   extraSessionCommands = ''
+      #       export MOZ_ENABLE_WAYLAND=1
+      #       export QT_QPA_PLATFORM=wayland
+      #       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      #       export SDL_VIDEODRIVER=wayland
+      #       export XDG_CURRENT_DESKTOP="sway"
+      #       export XDG_SESSION_TYPE="wayland"
+      #       export _JAVA_AWT_WM_NONREPARENTING=1
+      #       export GBM_BACKEND=nvidia-drm
+      #       export GBM_BACKENDS_PATH=/etc/gbm
+      #       export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      #       export WLR_NO_HARDWARE_CURSORS=1
+      #     '';
+      # };
     };
+  };
+
+  services.xserver.enable = true;
+
+  services.xserver.desktopManager = {
+     xterm.enable = false;
+  };
+  services.xserver.displayManager.defaultSession = "none+i3";
+  services.xserver.windowManager.i3 = {
+    enable = true;
+    extraPackages = with pkgs; [ rofi dmenu i3status i3lock i3blocks i3lock-fancy ];
+
   };
 
   fonts.fontconfig.enable = true;
@@ -274,6 +288,9 @@ in {
       pulse.enable = true;
     };
     openssh.enable = true;
+    postgresql = {
+      enable = true;
+    };
   };
   sound.enable = true;
 
