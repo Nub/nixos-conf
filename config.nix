@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 let unstable = import <nixos-unstable> {};
-sway-nvidia = pkgs.callPackage (import ./sway.nix) {};
 flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
-# hyprland = (import flake-compat {
-#   src = builtins.fetchTarball "https://github.com/hyprwm/Hyprland/archive/master.tar.gz";
-# }).defaultNix;
 in {
   imports = [ 
     <home-manager/nixos>
@@ -37,17 +33,8 @@ in {
     useUserPackages = true;
     useGlobalPkgs = true;
     users.zthayer = { pkgs, ... }: {
-      # imports = [
-      #   hyprland.homeManagerModules.default
-      # ];
       home.stateVersion = "23.05";
-      home.sessionVariables = {
-        # MOZ_ENABLE_WAYLAND = 1;
-        # XDG_CURRENT_DESKTOP = "sway";
-        # GBM_BACKENDS_PATHS = "/etc/gmb";
-        BROWSER = "firefox";
-        TERMINAL = "alacritty";
-      };
+      home.sessionVariables = {};
       home.packages = with pkgs; [
         glpaper
         swaylock-effects
@@ -164,107 +151,21 @@ in {
             };
 
             live_config_reload = true;
-
-            colors = {
-              # Default colors
-              primary = {
-                background = "0x1b182c";
-                foreground = "0xcbe3e7";
-              };
-              # Normal colors
-              normal = {
-                black = "0x100e23";
-                red = "0xff8080";
-                green = "0x95ffa4";
-                yellow = "0xffe9aa";
-                blue = "0x91ddff";
-                magenta = "0xc991e1";
-                cyan = "0xaaffe4";
-                white = "0xcbe3e7";
-              };
-
-              # Bright colors
-              bright = {
-                black = "0x565575";
-                red = "0xff5458";
-                green = "0x62d196";
-                yellow = "0xffb378";
-                blue = "0x65b2ff";
-                magenta = "0x906cff";
-                cyan = "0x63f2f1";
-                white = "0xa6b3cc";
-              };
-            };
           };
         };
       };
+
       home.file = {
-      #   wofi = {
-      #     target = ".config/wofi/style.css";
-      #     source = ./dotfiles/wofi/style.css;
-      #   };
-      #   mako = {
-      #     target = ".config/mako/config";
-      #     source = ./dotfiles/mako/config;
-      #   };
-      #   waybar = {
-      #     target = ".config/waybar/config";
-      #     source = ./dotfiles/waybar/config;
-      #   };
-      #   waybar-css = {
-      #     target = ".config/waybar/style.css";
-      #     source = ./dotfiles/waybar/style.css;
-      #   };
-      #   wallpaper = {
-      #     target = ".config/wallpaper.png";
-      #     source = ./wallpaper.png;
-      #   };
         i3 = {
           target = ".config/i3/config";
           source = ./dotfiles/i3/config;
         };
       };
-      # wayland.windowManager.hyprland = {
-      #   enable = true;
-      #   extraConfig = ''
-      #     bind = SUPER, Return, exec, alacritty 
-      #     bind = SUPER_SHIFT, Return, exec, firefox
-      #     bind = SUPER, Space, exec, wofi --show run 
-      #   '';
-      # };
-      # wayland.windowManager.sway = {
-      #   enable = true;
-      #   package = sway-nvidia;
-      #   config = {
-      #     modifier = "Mod4";
-      #     terminal = "alacritty";
-      #     menu = "wofi --show run";
-      #     bars = [{ command = "waybar"; }];
-      #   };
-      #   extraConfig = builtins.readFile ./dotfiles/sway/config;
-      #   extraOptions = [
-      #         "--unsupported-gpu"
-      #         "--my-next-gpu-wont-be-nvidia"
-      #       ];
-      #   extraSessionCommands = ''
-      #       export MOZ_ENABLE_WAYLAND=1
-      #       export QT_QPA_PLATFORM=wayland
-      #       export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-      #       export SDL_VIDEODRIVER=wayland
-      #       export XDG_CURRENT_DESKTOP="sway"
-      #       export XDG_SESSION_TYPE="wayland"
-      #       export _JAVA_AWT_WM_NONREPARENTING=1
-      #       export GBM_BACKEND=nvidia-drm
-      #       export GBM_BACKENDS_PATH=/etc/gbm
-      #       export __GLX_VENDOR_LIBRARY_NAME=nvidia
-      #       export WLR_NO_HARDWARE_CURSORS=1
-      #     '';
-      # };
+
     };
   };
 
   services.xserver.enable = true;
-
   services.xserver.desktopManager = {
      xterm.enable = false;
   };
@@ -281,9 +182,6 @@ in {
     font-awesome
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
-
-  security.pam.services.swaylock = { text = "auth include login"; };
-  security.polkit.enable = true;
 
   services = {
     pipewire = {
