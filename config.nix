@@ -198,7 +198,7 @@ in {
           };
         };
       };
-      # home.file = {
+      home.file = {
       #   wofi = {
       #     target = ".config/wofi/style.css";
       #     source = ./dotfiles/wofi/style.css;
@@ -219,7 +219,11 @@ in {
       #     target = ".config/wallpaper.png";
       #     source = ./wallpaper.png;
       #   };
-      # };
+        i3 = {
+          target = ".config/i3/config";
+          source = ./dotfiles/i3/config;
+        };
+      };
       # wayland.windowManager.hyprland = {
       #   enable = true;
       #   extraConfig = ''
