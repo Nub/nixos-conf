@@ -28,7 +28,7 @@
       extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
     };
   };
-  environment.systemPackages = with pkgs; [ chromium ];
+  environment.systemPackages = with pkgs; [ alacritty chromium ];
 
   sound.enable = true;
   hardware.pulseaudio.enable = false;
