@@ -1,5 +1,4 @@
-{...}:
-{
+{ pkgs, ... }: {
   time.timeZone = "America/Los_Angeles";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -29,6 +28,7 @@
       extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
     };
   };
+  environment.systemPackages = with pkgs; [ chromium ];
 
   sound.enable = true;
   hardware.pulseaudio.enable = false;

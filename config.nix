@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
-let unstable = import <nixos-unstable> {};
-flake-compat = builtins.fetchTarball "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
+let
+  unstable = import <nixos-unstable> { };
+  flake-compat = builtins.fetchTarball
+    "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
 in {
-  imports = [ 
-    <home-manager/nixos>
-  ];
+  imports = [ <home-manager/nixos> ];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -37,7 +37,7 @@ in {
     useGlobalPkgs = true;
     users.zthayer = { pkgs, ... }: {
       home.stateVersion = "23.05";
-      home.sessionVariables = {};
+      home.sessionVariables = { };
       home.packages = with pkgs; [
         glpaper
         swaylock-effects
@@ -122,11 +122,9 @@ in {
           enable = true;
           vimAlias = true;
           defaultEditor = true;
-          plugins = with pkgs.vimPlugins; [
-            nvim-treesitter
-            telescope-nvim
-            telescope-fzf-native-nvim
-          ] ++ parsers;
+          plugins = with pkgs.vimPlugins;
+            [ nvim-treesitter telescope-nvim telescope-fzf-native-nvim ]
+            ++ parsers;
         };
         tmux = {
           enable = true;
@@ -169,13 +167,18 @@ in {
   };
 
   services.xserver.enable = true;
-  services.xserver.desktopManager = {
-     xterm.enable = false;
-  };
+  services.xserver.desktopManager = { xterm.enable = false; };
   services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.windowManager.i3 = {
     enable = true;
-    extraPackages = with pkgs; [ rofi dmenu i3status i3lock i3blocks i3lock-fancy ];
+    extraPackages = with pkgs; [
+      rofi
+      dmenu
+      i3status
+      i3lock
+      i3blocks
+      i3lock-fancy
+    ];
 
   };
 
@@ -193,9 +196,7 @@ in {
       pulse.enable = true;
     };
     openssh.enable = true;
-    postgresql = {
-      enable = true;
-    };
+    postgresql = { enable = true; };
   };
   sound.enable = true;
 
