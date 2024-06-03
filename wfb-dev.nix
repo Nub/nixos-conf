@@ -6,6 +6,7 @@
   services.wfb.enable = true;
   services.wfb.working_dir = "/home/zacht";
 
+  services.avahi.enable = true;
   services.openssh.enable = true;
   services.openssh.ports = [ 22 2222 ];
   services.tailscale.enable = true;
