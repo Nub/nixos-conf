@@ -97,11 +97,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1717376809,
-        "narHash": "sha256-fpFvjIt/f+Gex4fmjVoza0kzf/CB0q1oOpHER1e9h0M=",
+        "lastModified": 1717383901,
+        "narHash": "sha256-Q0BUCGGZJolKDPydFfC0ppRWjTPJdcIScl4JaZ9OaSw=",
         "owner": "Nub",
         "repo": "wfb-ng",
-        "rev": "b8f3d961b483e3fbc14b2d57039fc9abfe3141c5",
+        "rev": "e2276522ed60546ebe06b55ea936a3b319987a65",
         "type": "github"
       },
       "original": {

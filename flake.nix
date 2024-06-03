@@ -14,6 +14,8 @@
     let
       inherit (nixpkgs.lib) nixosSystem;
       # utils.lib.eachDefaultSystem (system: {
+      hostname = h: ({...}: { networking.hostName = h; });
+      wfb-profiles = p: ({...}: { services.wfb.profiles = p; });
     in {
       nixosConfigurations = {
         wfb-qemu = nixosSystem rec {
@@ -24,6 +26,8 @@
             inputs.wfb-ng.nixosModules.${system}.wfb
             (import ./wfb-dev.nix)
             (import ./qemu-hw-cgf.nix)
+            (hostname "nixos")
+            (wfb-profiles ["gcs"])
           ];
         };
         wfb-wsl = nixosSystem rec {
@@ -36,6 +40,8 @@
             (import ./wfb-dev.nix)
             (import ./i3.nix)
             (import ./wireless.nix)
+            (hostname "zwlt")
+            (wfb-profiles ["drone"])
           ];
         };
       };

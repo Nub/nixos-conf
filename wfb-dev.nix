@@ -5,6 +5,9 @@
   networking.interfaces.enp0s1.useDHCP = true;
   networking.interfaces.enp0s2.useDHCP = true;
 
+  services.wfb.enable = true;
+  services.wfb.working_dir = "/home/zacht";
+
   services.openssh.enable = true;
   services.openssh.ports = [ 22 2222 ];
   services.tailscale.enable = true;
