@@ -4,7 +4,7 @@
   networking.useDHCP = false;
 
   services.wfb.enable = true;
-  services.wfb.working_dir = "/home/zacht";
+  services.wfb.working_dir = "/home/zacht/wfb";
 
   services.avahi.enable = true;
   services.openssh.enable = true;
