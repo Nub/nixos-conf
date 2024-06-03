@@ -8,6 +8,9 @@ in {
 
   time.timeZone = "America/Los_Angeles";
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   networking.useDHCP = true;
   networking.firewall.enable = false;
   networking.wireguard.enable = true;
