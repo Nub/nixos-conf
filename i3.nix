@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   time.timeZone = "America/Los_Angeles";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -16,28 +17,39 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbVariant = "";
-    displayManager.defaultSession = "none+i3";
+    xkb.layout = "us";
+    xkb.variant = "";
     desktopManager.xterm.enable = true;
-    # Enable automatic login for the user.
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "zacht";
     windowManager.i3 = {
       enable = true;
-      extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
+      extraPackages = with pkgs; [
+        dmenu
+        i3status
+        i3lock
+        i3blocks
+        rofi
+        dmenu
+      ];
     };
   };
-  environment.systemPackages = with pkgs; [ alacritty chromium ];
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  services.displayManager = {
+    defaultSession = "none+i3";
+    # Enable automatic login for the user.
+    autoLogin.enable = true;
+    autoLogin.user = "zach";
+  };
+
+  environment.systemPackages = with pkgs; [
+    alacritty
+    chromium
+  ];
+
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-
 }

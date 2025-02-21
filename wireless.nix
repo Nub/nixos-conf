@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
   networking.wireless.networks.BigHertz.pskRaw =
