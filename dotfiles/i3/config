@@ -1,8 +1,14 @@
-set $mod Mod4
+set $mod Mod
 
-font pango:monospace 10 
+font pango:FiraCode Nerd Font Mono 12 
 
-default_border pixel 1
+gaps inner 6
+border_radius 5
+
+default_border pixel 0
+
+workspace 1 output DP-4
+workspace 2 output HDMI-0
 
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -20,7 +26,7 @@ floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
+# tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec alacritty 
@@ -163,6 +169,9 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
+# bar {
+#   position top
+#   status_command polybar
+# }
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh 

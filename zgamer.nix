@@ -6,7 +6,11 @@
     ./user.nix
     ./wireless.nix
     ./gaming.nix
+    ./wireless.nix
+    ./nvim.nix
   ];
+
+  nixpkgs.config.allowUnfree = true;
 
   networking.hostName = "zgamer";
 }

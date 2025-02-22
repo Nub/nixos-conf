@@ -1,4 +1,4 @@
-{ inputs, config, ... }:
+{ inputs, ... }:
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -14,12 +14,14 @@
         home.sessionVariables = { };
         home.packages = with pkgs; [
           inputs.nix-warez.packages.x86_64-linux.blender_4_2
+          helix
           lunarvim
           alacritty
           chromium
           fd
           unzip
           rustup
+          stdenv.cc
           zip
           wget
           fzf
@@ -57,9 +59,6 @@
             terminal = "screen-256color";
             shell = "/etc/profiles/per-user/zthayer/bin/fish";
           };
-          zellij = {
-            enable = true;
-          };
           git = {
             enable = true;
             package = pkgs.gitAndTools.gitFull;
@@ -72,19 +71,12 @@
           alacritty = {
             enable = true;
             settings = {
-              font = {
-                size = 14.0;
-              };
-
               window = {
-                opacity = 0.85;
                 padding = {
                   x = 16;
-                  y = 16;
+                  y = 14;
                 };
               };
-
-              live_config_reload = true;
             };
           };
         };
@@ -92,6 +84,15 @@
           i3 = {
             target = ".config/i3/config";
             source = ./dotfiles/i3/config;
+          };
+          polybar = {
+            target = ".config/polybar/config.ini";
+            source = ./dotfiles/polybar/config.ini;
+          };
+          polybar-launch = {
+            executable = true;
+            target = ".config/polybar/launch.sh";
+            source = ./dotfiles/polybar/launch.sh;
           };
         };
 

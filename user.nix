@@ -17,12 +17,6 @@
   };
   programs.fish.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    git
-    neovim
-    zellij
-  ];
-
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
@@ -43,11 +37,26 @@
     libvpx
     librsvg
     libvdpau
+    xorg.libX11
+    xorg.libXcursor
+    xorg.libXi
+    xorg.libXrandr
+    vulkan-loader 
+    libGL
+    libxkbcommon
   ];
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
+
+  nix.settings.substituters = [
+    "https://nix-community.cachix.org"
+  ];
+  nix.settings.trusted-public-keys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
+
   system.stateVersion = "24.11"; # Did you read the comment?
 }

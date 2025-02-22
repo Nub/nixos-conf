@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   modulesPath,
@@ -18,15 +19,8 @@
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.dpi = 138;
-  services.xserver.config = lib.mkAfter (builtins.readFile ./dotfiles/xorg.conf);
 
-  environment.variables = {
-    GDK_SCALE = "1";
-    GDK_DPI_SCALE = "0.5";
-    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
-  };
-
+ # boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = [

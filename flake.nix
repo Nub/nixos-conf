@@ -8,17 +8,15 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-warez.url = "github:edolstra/nix-warez?dir=blender";
     nix-warez.inputs.nixpkgs.follows = "nixpkgs";
+    stylix.url = "github:danth/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
+    nvf.url = "github:notashelf/nvf";
+    nvf.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      utils,
-      ...
-    }@inputs:
-    let
-      inherit (nixpkgs.lib) nixosSystem;
+  outputs = inputs: 
+  let
+      inherit (inputs.nixpkgs.lib) nixosSystem;
     in
     {
       nixosConfigurations = {
@@ -27,12 +25,6 @@
           specialArgs = { inherit inputs; };
           modules = [
             ./zgamer.nix
-            (
-              { ... }:
-              {
-                nixpkgs.config.allowUnfree = true;
-              }
-            )
           ];
         };
       };
