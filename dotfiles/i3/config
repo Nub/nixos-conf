@@ -1,6 +1,6 @@
-set $mod Mod
+set $mod Mod4
 
-font pango:FiraCode Nerd Font Mono 12 
+font pango:FiraCode Nerd Font Mono 12
 
 gaps inner 6
 border_radius 5
@@ -8,7 +8,7 @@ border_radius 5
 default_border pixel 0
 
 workspace 1 output DP-4
-workspace 2 output HDMI-0
+workspace 2 output HDMI-1
 
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -29,10 +29,10 @@ floating_modifier $mod
 # tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec alacritty 
-bindsym $mod+Shift+Return exec chromium 
+bindsym $mod+Return exec alacritty
+bindsym $mod+Shift+Return exec chromium
 
-bindsym $mod+End exec i3lock 
+bindsym $mod+End exec i3lock
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -174,4 +174,4 @@ bindsym $mod+r mode "resize"
 #   status_command polybar
 # }
 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh

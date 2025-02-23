@@ -14,14 +14,17 @@
         home.sessionVariables = { };
         home.packages = with pkgs; [
           inputs.nix-warez.packages.x86_64-linux.blender_4_2
+          alacritty
+          chromium
+          liquidctl
+          systemctl-tui
+          udisks
           helix
           lunarvim
           alacritty
           chromium
           fd
           unzip
-          rustup
-          stdenv.cc
           zip
           wget
           fzf

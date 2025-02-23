@@ -20,7 +20,7 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
- # boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = [
@@ -31,6 +31,7 @@
     "usb_storage"
     "sd_mod"
   ];
+  boot.supportedFilesystems = [ "ntfs" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -49,7 +50,6 @@
     ];
   };
 
-  swapDevices = [ ];
 
   networking.useDHCP = lib.mkDefault true;
 
