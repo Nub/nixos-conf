@@ -37,6 +37,10 @@
         }
       ];
 
+      comments.comment-nvim.enable = true;
+      comments.comment-nvim.mappings.toggleSelectedLine = "<Space><Space>";
+      comments.comment-nvim.mappings.toggleCurrentLine = "<Space><Space>";
+
       statusline.lualine.enable = true;
       telescope.enable = true;
       autocomplete.nvim-cmp.enable = true;
