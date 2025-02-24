@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ./home.nix ];
+  imports = [ ];
 
   services.avahi.enable = true;
   services.openssh.enable = true;
