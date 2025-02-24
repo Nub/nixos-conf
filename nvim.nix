@@ -25,6 +25,18 @@
         bash.enable = true;
       };
 
+      terminal.toggleterm.enable = true;
+      terminal.toggleterm.mappings.open = "<C-\\>";
+
+      keymaps = [
+        {
+          key = "<C-\\>";
+          mode = ["t"];
+          silent = true;
+          action = "<C-\\><C-n><C-w>k";
+        }
+      ];
+
       statusline.lualine.enable = true;
       telescope.enable = true;
       autocomplete.nvim-cmp.enable = true;
