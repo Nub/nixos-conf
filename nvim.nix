@@ -1,5 +1,8 @@
-{ inputs, ... }:
 {
+  inputs,
+  config,
+  ...
+}: {
   imports = [
     inputs.nvf.nixosModules.default
   ];
@@ -7,18 +10,46 @@
   programs.nvf = {
     enable = true;
     settings.vim = {
-      options.tabstop = 4;
+      options = {
+        tabstop = 2;
+        shiftwidth = 2;
+      };
 
-      theme.enable = true;
-      theme.name = "onedark";
-      theme.style = "dark";
-      theme.transparent = true;
+      theme = {
+        enable = true;
+        name = "onedark";
+        style = "dark";
+        transparent = true;
+      };
 
-      lsp.enable = true;
-      lsp.formatOnSave = true;
+      ui = {
+        borders.enable = true;
+        noice.enable = true;
+        colorizer.enable = true;
+        illuminate.enable = true;
+        breadcrumbs = {
+          enable = false;
+          navbuddy.enable = false;
+        };
+        smartcolumn = {
+          enable = false;
+        };
+        fastaction.enable = true;
+      };
+
+      spellcheck.enable = false;
+
+      lsp = {
+        enable = true;
+        formatOnSave = true;
+      };
 
       languages = {
         enableLSP = true;
+        enableFormat = true;
+        enableTreesitter = true;
+        enableExtraDiagnostics = true;
+
         rust.enable = true;
         rust.crates.enable = true;
         nix.enable = true;
@@ -32,14 +63,89 @@
         {
           key = "<C-\\>";
           mode = ["t"];
-          silent = true;
-          action = "<C-\\><C-n><C-w>k";
+          action = "<cmd>ToggleTerm close<cr>";
+          desc = "Close toggle term";
+        }
+        {
+          key = "<leader>e";
+          mode = ["n"];
+          action = "<cmd>Neotree toggle<cr>";
+          desc = "File browser toggle";
+        }
+
+        {
+          key = "<leader>ff";
+          mode = ["n"];
+          action = "<cmd>Telescope find_files<cr>";
+          desc = "Search files by name";
+        }
+        {
+          key = "<leader>ft";
+          mode = ["n"];
+          action = "<cmd>Telescope live_grep<cr>";
+          desc = "Search files by contents";
+        }
+        {
+          key = "<C-h>";
+          mode = ["i"];
+          action = "<Left>";
+          desc = "Move left in insert mode";
+        }
+        {
+          key = "<C-j>";
+          mode = ["i"];
+          action = "<Down>";
+          desc = "Move down in insert mode";
+        }
+        {
+          key = "<C-k>";
+          mode = ["i"];
+          action = "<Up>";
+          desc = "Move up in insert mode";
+        }
+        {
+          key = "<C-l>";
+          mode = ["i"];
+          action = "<Right>";
+          desc = "Move right in insert mode";
+        }
+        {
+          key = "<leader>nh";
+          mode = ["n"];
+          action = ":nohl<CR>";
+          desc = "Clear search highlights";
         }
       ];
 
-      comments.comment-nvim.enable = true;
-      comments.comment-nvim.mappings.toggleSelectedLine = "<Space><Space>";
-      comments.comment-nvim.mappings.toggleCurrentLine = "<Space><Space>";
+      comments = {
+        comment-nvim = {
+          enable = true;
+          mappings.toggleSelectedLine = "<Space><Space>";
+          mappings.toggleCurrentLine = "<Space><Space>";
+        };
+      };
+
+      notify = {
+        nvim-notify.enable = true;
+        nvim-notify.setupOpts.background_colour = "#${config.lib.stylix.colors.base01}";
+      };
+
+      utility = {
+        ccc.enable = false;
+        vim-wakatime.enable = false;
+        icon-picker.enable = true;
+        surround.enable = true;
+        diffview-nvim.enable = true;
+        motion = {
+          hop.enable = true;
+          leap.enable = true;
+          precognition.enable = false;
+        };
+
+        images = {
+          image-nvim.enable = false;
+        };
+      };
 
       statusline.lualine.enable = true;
       telescope.enable = true;
@@ -49,6 +155,12 @@
       binds = {
         whichKey.enable = true;
         cheatsheet.enable = true;
+      };
+      filetree.neo-tree.enable = true;
+      git = {
+        enable = true;
+        gitsigns.enable = true;
+        gitsigns.codeActions.enable = false; # throws an annoying debug message
       };
     };
   };
