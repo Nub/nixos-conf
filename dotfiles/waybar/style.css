@@ -1,175 +1,71 @@
 * {
-    font-size: 14px;
-    border-radius: 5px;
+    border:        none;
+    border-radius: 0;
+    font-family:   Sans;
+    font-size:     14pt;
+    box-shadow:    none;
+    text-shadow:   none;
+    transition-duration: 0s;
 }
 
-window#waybar {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, monospace;
-    background-color: transparent;
-    border-bottom: 0px;
-    color: #ebdbb2;
-    transition-property: background-color;
-    transition-duration: .5s;
+window {
+    color:      rgba(217, 216, 216, 1);
+    background: rgba(35, 31, 32, 0.00);
 }
 
-window#waybar.hidden {
-    opacity: 0.2;
-}
-
-window#waybar.empty #window {
-    background-color: transparent;
-}
-
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
 window#waybar.solo {
-    background-color: #FFFFFF;
+    color:      rgba(217, 216, 216, 1);
+    background: rgba(35, 31, 32, 0.85);
 }
-*/
-
-.modules-right {
-    margin: 10px 10px 0 0;
-}
-.modules-center {
-    margin: 10px 0 0 0;
-}
-.modules-left {
-    margin: 10px 0 0 10px;
-}
-
-button {
-    /* Use box-shadow instead of border so the text isn't offset */
-    /* box-shadow: inset 0 -3px transparent; */
-    border: none;
-}
-
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-/*
-button:hover {
-    background: inherit;
-    box-shadow: inset 0 -3px #ebdbb2;
-} */
 
 #workspaces {
-    background-color: #282828;
+    margin: 0 5px;
 }
 
 #workspaces button {
-    padding: 0 5px;
-    background-color: transparent;
-    color: #ebdbb2;
-    border-radius: 0;
+    padding:    0 5px;
+    color:      rgba(217, 216, 216, 0.4);
 }
 
-#workspaces button:first-child {
-    border-radius: 5px 0 0 5px;
-}
-
-#workspaces button:last-child {
-    border-radius: 0 5px 5px 0;
-}
-
-#workspaces button:hover {
-    color: #d79921;
+#workspaces button.visible {
+    color:      rgba(217, 216, 216, 1);
 }
 
 #workspaces button.focused {
-    background-color: #665c54;
-    /* box-shadow: inset 0 -3px #ffffff; */
+    border-top: 3px solid rgba(217, 216, 216, 1);
+    border-bottom: 3px solid rgba(217, 216, 216, 0);
 }
 
 #workspaces button.urgent {
-    background-color: #b16286;
+    color:      rgba(238, 46, 36, 1);
 }
 
-#idle_inhibitor,
-#cava,
-#scratchpad,
-#mode,
-#window,
-#clock,
-#battery,
-#backlight,
-#wireplumber,
-#tray,
-#mpris,
-#load {
-    padding: 0 10px;
-    background-color: #282828;
-    color: #ebdbb2;
+#mode, #battery, #cpu, #memory, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #custom-spotify, #custom-weather, #custom-mail {
+    margin:     0px 6px 0px 10px;
+    min-width:  25px;
 }
 
-#mode {
-    background-color: #689d6a;
-    color: #282828;
-    /* box-shadow: inset 0 -3px #ffffff; */
+#clock {
+    margin:     0px 16px 0px 10px;
+    min-width:  140px;
 }
 
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 0;
+#battery.warning {
+   color:       rgba(255, 210, 4, 1);
 }
 
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces {
-    margin-right: 0;
+#battery.critical {
+    color:      rgba(238, 46, 36, 1);
 }
 
-#cava {
-    padding: 0 5px;
+#battery.charging {
+    color:      rgba(217, 216, 216, 1);
 }
 
-#battery.charging, #battery.plugged {
-    background-color: #98971a;
-    color: #282828;
+#custom-storage.warning {
+    color:      rgba(255, 210, 4, 1);
 }
 
-@keyframes blink {
-    to {
-        background-color: #282828;
-        color: #ebdbb2;
-    }
-}
-
-/* Using steps() instead of linear as a timing function to limit cpu usage */
-#battery.critical:not(.charging) {
-    background-color: #cc241d;
-    color: #ebdbb2;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-label:focus {
-    background-color: #000000;
-}
-
-#wireplumber.muted {
-    background-color: #458588;
-}
-
-#tray > .passive {
-    -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-    -gtk-icon-effect: highlight;
-}
-
-#mpris.playing {
-    background-color: #d79921;
-    color: #282828;
-}
-
-#tray menu {
-    font-family: sans-serif;
-}
-
-#scratchpad.empty {
-    background: transparent;
+#custom-storage.critical {
+    color:      rgba(238, 46, 36, 1);
 }

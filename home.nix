@@ -52,6 +52,11 @@
         fish = {
           enable = true;
           interactiveShellInit = "fish_add_path /home/zach/.local/bin:$PATH";
+          shellAliases = {
+            dev = "nix develop --command bash -c \"nvim ./\"";
+            jfu = "sudo journalctl -fu";
+            ctl = "sudo systemctl";
+          };
         };
         tmux = {
           enable = true;
