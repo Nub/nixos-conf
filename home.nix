@@ -15,14 +15,13 @@
         home.packages = with pkgs; [
           inputs.nix-warez.packages.x86_64-linux.blender_4_2
           alacritty
-          chromium
+          spotify
           liquidctl
           systemctl-tui
           udisks
           helix
           lunarvim
           alacritty
-          chromium
           fd
           unzip
           zip
@@ -87,6 +86,11 @@
           i3 = {
             target = ".config/i3/config";
             source = ./dotfiles/i3/config;
+          };
+          hypr = {
+            recursive = true;
+            target = ".config/hypr";
+            source = ./dotfiles/hypr;
           };
           polybar = {
             target = ".config/polybar/config.ini";

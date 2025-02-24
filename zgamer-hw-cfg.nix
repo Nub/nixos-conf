@@ -34,6 +34,10 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelParams = [
+    "pcie_port_pm=off"
+    "pcie_aspm=performance"
+  ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
@@ -49,7 +53,6 @@
       "dmask=0077"
     ];
   };
-
 
   networking.useDHCP = lib.mkDefault true;
 

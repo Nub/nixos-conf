@@ -14,8 +14,9 @@
     nvf.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs: 
-  let
+  outputs =
+    inputs:
+    let
       inherit (inputs.nixpkgs.lib) nixosSystem;
     in
     {

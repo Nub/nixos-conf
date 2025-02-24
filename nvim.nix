@@ -1,4 +1,5 @@
-{inputs, ...}: {
+{ inputs, ... }:
+{
   imports = [
     inputs.nvf.nixosModules.default
   ];
@@ -28,7 +29,6 @@
       telescope.enable = true;
       autocomplete.nvim-cmp.enable = true;
       autopairs.nvim-autopairs.enable = true;
-      filetree.neo-tree.enable = true;
       treesitter.context.enable = true;
       binds = {
         whichKey.enable = true;

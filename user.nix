@@ -41,7 +41,7 @@
     xorg.libXcursor
     xorg.libXi
     xorg.libXrandr
-    vulkan-loader 
+    vulkan-loader
     libGL
     libxkbcommon
   ];

@@ -3,7 +3,7 @@
   services.xserver = {
     enable = true;
     dpi = 138;
-#    config = lib.mkAfter (builtins.readFile ./dotfiles/xorg.conf);
+    #    config = lib.mkAfter (builtins.readFile ./dotfiles/xorg.conf);
     xkb.layout = "us";
     xkb.variant = "";
     desktopManager.xterm.enable = true;

@@ -10,10 +10,10 @@
     ./cooler.nix
     ./ui.nix
     ./audio.nix
-    ./i3.nix
+    ./hyprland.nix
   ];
 
-  networking.firewall.allowedUDPPorts = [ 63436 ]; 
+  networking.firewall.allowedUDPPorts = [ 63436 ];
   nixpkgs.config.allowUnfree = true;
   networking.hostName = "zgamer";
 }
