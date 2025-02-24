@@ -1,5 +1,9 @@
-{ pkgs, config, ... }:
 {
+  inputs,
+  pkgs,
+  config,
+  ...
+}: {
   services.greetd = {
     enable = true;
     settings = {
@@ -35,7 +39,7 @@
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
   ];
-  boot.kernelModules = [ "v4l2loopback" ];
+  boot.kernelModules = ["v4l2loopback"];
   boot.extraModprobeConfig = ''
     options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
   '';
@@ -54,30 +58,36 @@
   #    ];
   #  };
 
-  xdg = {
-    portal = {
-      enable = true;
-      wlr.enable = true;
-      xdgOpenUsePortal = true;
-      config = {
-        common.default = [ "gtk" ];
-        hyprland.default = [
-          "gtk"
-          "hyprland"
-        ];
-      };
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-hyprland
-      ];
-    };
-  };
+  # xdg = {
+  #   portal = {
+  #     enable = true;
+  #     wlr.enable = true;
+  #     xdgOpenUsePortal = true;
+  #     config = {
+  #       common.default = [ "gtk" ];
+  #       hyprland.default = [
+  #         "gtk"
+  #         "hyprland"
+  #       ];
+  #     };
+  #     extraPortals = [
+  #       pkgs.xdg-desktop-portal-gtk
+  #       pkgs.xdg-desktop-portal-hyprland
+  #     ];
+  #   };
+  # };
 
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
-  programs.hyprland.enable = true;
-  programs.hyprland.withUWSM = true;
-  programs.hyprland.xwayland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    # set the flake package
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
   programs.waybar.enable = true;
 }

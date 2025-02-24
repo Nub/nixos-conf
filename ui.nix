@@ -1,6 +1,8 @@
-{ inputs, pkgs, ... }:
 {
-
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.stylix.nixosModules.stylix
   ];
@@ -10,10 +12,10 @@
   stylix.image = ./wallpaper.jpg;
   stylix.fonts = {
     sizes = {
-      applications = 12;
-      desktop = 12;
-      popups = 12;
-      terminal = 14;
+      applications = 16;
+      desktop = 16;
+      popups = 16;
+      terminal = 18;
     };
     serif = {
       package = pkgs.dejavu_fonts;

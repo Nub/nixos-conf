@@ -12,30 +12,29 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    inputs:
-    let
-      inherit (inputs.nixpkgs.lib) nixosSystem;
-    in
-    {
-      nixosConfigurations = {
-        zgamer = nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./zgamer.nix
-          ];
-        };
+  outputs = inputs: let
+    inherit (inputs.nixpkgs.lib) nixosSystem;
+  in {
+    nixosConfigurations = {
+      zgamer = nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./zgamer.nix
+        ];
+      };
 
-        graybeard = nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./graybeard.nix
-          ];
-        };
+      graybeard = nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./graybeard.nix
+        ];
       };
     };
+  };
 }
