@@ -10,7 +10,7 @@
       options.tabstop = 4;
 
       theme.enable = true;
-      theme.name = "gruvbox";
+      theme.name = "onedark";
       theme.style = "dark";
       theme.transparent = true;
 
