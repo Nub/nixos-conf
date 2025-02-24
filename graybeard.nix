@@ -8,6 +8,7 @@
     ./cooler.nix
     ./ui.nix
     ./home.nix
+    ./ci.nix
   ];
 
   networking.firewall.allowedUDPPorts = [ 63436 ];
