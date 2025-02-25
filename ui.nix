@@ -11,7 +11,7 @@
     enable = true;
     image = ./wallpaper.jpg;
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-city-terminal-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     fonts = {
       sizes = {
         applications = 16;
