@@ -55,7 +55,6 @@
         enableExtraDiagnostics = true;
 
         rust.enable = true;
-        rust.crates.enable = true;
         nix.enable = true;
         bash.enable = true;
       };
@@ -76,7 +75,12 @@
           action = "<cmd>Neotree toggle<cr>";
           desc = "File browser toggle";
         }
-
+        {
+          key = "<leader>c";
+          mode = ["n"];
+          action = ":bd";
+          desc = "Close buffer";
+        }
         {
           key = "<leader>ff";
           mode = ["n"];
@@ -155,7 +159,6 @@
       telescope.enable = true;
       autocomplete.nvim-cmp.enable = true;
       autopairs.nvim-autopairs.enable = true;
-      treesitter.context.enable = true;
       binds = {
         whichKey.enable = true;
         cheatsheet.enable = true;

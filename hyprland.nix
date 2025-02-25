@@ -1,7 +1,7 @@
 {
   inputs,
-  pkgs,
   config,
+  pkgs,
   ...
 }: {
   services.greetd = {
@@ -38,29 +38,30 @@
       plugins = with pkgs.obs-studio-plugins; [
         obs-backgroundremoval
         obs-pipewire-audio-capture
+        obs-vkcapture
+        obs-gstreamer
       ];
     })
+    v4l-utils
   ];
-
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
 
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
   ];
-  boot.kernelModules = ["v4l2loopback"];
   boot.extraModprobeConfig = ''
     options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
   '';
 
-  xdg.portal = with pkgs; {
-    extraPortals = [inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland];
-    configPackages = [inputs.hyprland.packages.${system}.hyprland];
-    xdgOpenUsePortal = true;
+  environment.variables = {
+    XDG_OPEN_USE_PORTAL = 1;
+    XDG_DESKTOP_PORTAL_DIR = "/run/current-system/sw/share/xdg-desktop-portal/portals";
   };
 
   security.polkit.enable = true;
   security.rtkit.enable = true;
+
+  xdg.portal.enable = true;
+  xdg.portal.xdgOpenUsePortal = true;
 
   programs.hyprland = {
     enable = true;
