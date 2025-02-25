@@ -20,23 +20,34 @@
 
   outputs = inputs: let
     inherit (inputs.nixpkgs.lib) nixosSystem;
-  in {
-    nixosConfigurations = {
-      zgamer = nixosSystem {
-        system = "x86_64-linux";
+    mkSystem = system: modules:
+      nixosSystem {
+        inherit system modules;
         specialArgs = {inherit inputs;};
-        modules = [
-          ./zgamer.nix
-        ];
       };
+  in
+    inputs.utils.lib.eachDefaultSystem (system: let
+      pkgs = inputs.nixpkgs.legacyPackage.${system};
+    in {
+      # Packages
+      packages = {
+        nvim =
+          (inputs.nvf.lib.neovimConfiguration {
+            inherit pkgs;
+            modules = [./nvim.nix];
+          })
+          .neovim;
 
-      graybeard = nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./graybeard.nix
-        ];
+        # Machine configurations
+        nixosConfigurations = {
+          zgamer = mkSystem system [
+            ./zgamer.nix
+          ];
+
+          graybeard = mkSystem system [
+            ./graybeard.nix
+          ];
+        };
       };
-    };
-  };
+    });
 }
