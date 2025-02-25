@@ -1,7 +1,13 @@
 {inputs, ...}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    inputs.nvf.nixosModules.default
   ];
+
+  programs.nvf = {
+    enable = true;
+    settings = import ./nvim.nix;
+  };
 
   home-manager = {
     useUserPackages = true;

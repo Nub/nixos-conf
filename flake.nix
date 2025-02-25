@@ -27,14 +27,14 @@
       };
   in
     inputs.utils.lib.eachDefaultSystem (system: let
-      pkgs = inputs.nixpkgs.legacyPackage.${system};
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
     in {
       # Packages
       packages = {
         nvim =
           (inputs.nvf.lib.neovimConfiguration {
             inherit pkgs;
-            modules = [./nvim.nix];
+            modules = [{config = import ./nvim.nix;}];
           })
           .neovim;
 
