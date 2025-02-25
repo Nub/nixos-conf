@@ -9,9 +9,9 @@
 
   stylix = {
     enable = true;
-    polarity = "dark";
     image = ./wallpaper.jpg;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/onedark.yaml";
+    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-city-terminal-dark.yaml";
     fonts = {
       sizes = {
         applications = 16;

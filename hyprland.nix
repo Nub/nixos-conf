@@ -27,6 +27,7 @@
     greetd.tuigreet
     dolphin
     wofi
+    xwaylandvideobridge
     (firefox-wayland.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];})
     (chromium.override {
       commandLineArgs = [
