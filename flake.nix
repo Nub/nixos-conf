@@ -14,6 +14,8 @@
     nvf.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
+    pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
+    pipewire-screenaudio.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let

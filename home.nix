@@ -11,6 +11,7 @@
       home.sessionVariables = {};
       home.packages = with pkgs; [
         inputs.nix-warez.packages.x86_64-linux.blender_4_2
+        webcord
         alacritty
         spotify
         liquidctl
@@ -24,6 +25,7 @@
         zip
         wget
         fzf
+        t
         bat
         jq
         usbutils
