@@ -47,10 +47,12 @@
       rust.enable = true;
       nix.enable = true;
       bash.enable = true;
+      wgsl.enable = true;
     };
 
     terminal.toggleterm.enable = true;
     terminal.toggleterm.mappings.open = "<C-\\>";
+    terminal.toggleterm.setupOpts.winbar.enabled = false;
 
     keymaps = [
       {
@@ -68,7 +70,7 @@
       {
         key = "<leader>c";
         mode = ["n"];
-        action = ":bd";
+        action = "<cmd>bd<cr>";
         desc = "Close buffer";
       }
       {
@@ -129,15 +131,15 @@
 
     utility = {
       ccc.enable = false;
-      vim-wakatime.enable = false;
-      icon-picker.enable = true;
+      # vim-wakatime.enable = false;
+      # icon-picker.enable = true;
       surround.enable = true;
       diffview-nvim.enable = true;
-      motion = {
-        hop.enable = true;
-        leap.enable = true;
-        precognition.enable = false;
-      };
+      # motion = {
+      #   hop.enable = true;
+      #   leap.enable = true;
+      #   precognition.enable = false;
+      # };
 
       images = {
         image-nvim.enable = false;
