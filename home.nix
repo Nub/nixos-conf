@@ -17,14 +17,13 @@
       home.sessionVariables = {};
       home.packages = with pkgs; [
         inputs.nix-warez.packages.x86_64-linux.blender_4_2
-        webcord
+        discord
         alacritty
         spotify
         liquidctl
         systemctl-tui
         udisks
         helix
-        lunarvim
         alacritty
         fd
         unzip
@@ -106,15 +105,6 @@
           recursive = true;
           target = ".config/waybar";
           source = ./dotfiles/waybar;
-        };
-        polybar = {
-          target = ".config/polybar/config.ini";
-          source = ./dotfiles/polybar/config.ini;
-        };
-        polybar-launch = {
-          executable = true;
-          target = ".config/polybar/launch.sh";
-          source = ./dotfiles/polybar/launch.sh;
         };
       };
     };

@@ -25,9 +25,8 @@
 
   environment.systemPackages = with pkgs; [
     greetd.tuigreet
-    dolphin
     wofi
-    xwaylandvideobridge
+    kdePackages.xwaylandvideobridge
     (firefox-wayland.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];})
     (chromium.override {
       commandLineArgs = [
@@ -45,6 +44,10 @@
     v4l-utils
   ];
 
+  environment.variables = {
+    NIXOS_OZONE_WL = 1;
+  };
+
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
   ];
@@ -52,16 +55,8 @@
     options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
   '';
 
-  environment.variables = {
-    XDG_OPEN_USE_PORTAL = 1;
-    XDG_DESKTOP_PORTAL_DIR = "/run/current-system/sw/share/xdg-desktop-portal/portals";
-  };
-
   security.polkit.enable = true;
   security.rtkit.enable = true;
-
-  xdg.portal.enable = true;
-  xdg.portal.xdgOpenUsePortal = true;
 
   programs.hyprland = {
     enable = true;
