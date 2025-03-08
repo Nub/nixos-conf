@@ -17,8 +17,10 @@
   hardware.nvidia = {
     modesetting.enable = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    # package = config.boot.kernelPackages.nvidiaPackages.latest;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
     open = false;
+    powerManagement.enable = true;
   };
 
   services.xserver.videoDrivers = ["nvidia"];
@@ -41,6 +43,7 @@
   boot.kernelParams = [
     "pcie_port_pm=off"
     "pcie_aspm=performance"
+    "nvidia.NVreg_EnableGpuFirmware=0"
   ];
   boot.extraModulePackages = [];
 
