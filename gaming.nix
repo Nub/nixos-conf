@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
@@ -10,5 +9,8 @@
     lutris
     bottles
     heroic
+    corectrl
+    vulkan-tools
+    mesa-demos
   ];
 }

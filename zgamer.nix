@@ -10,6 +10,7 @@
     ./ui.nix
     ./audio.nix
     ./hyprland.nix
+    ./work.nix
   ];
 
   networking.firewall.allowedUDPPorts = [63436];

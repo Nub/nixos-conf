@@ -78,6 +78,17 @@
           extraConfig = {
             core.editor = "nvim";
           };
+          includes = [
+            {
+              condition = "gitdir:~/src/merops";
+              contents = {
+                user = {
+                  name = "Zachry Thayer";
+                  email = "zach@meropsautomation.com";
+                };
+              };
+            }
+          ];
         };
         alacritty = {
           enable = true;

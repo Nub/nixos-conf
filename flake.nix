@@ -12,7 +12,7 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.url = "github:hyprwm/Hyprland?submodules=1&ref=v0.47.2";
+    hyprland.url = "github:hyprwm/Hyprland?submodules=1";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
     pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
     pipewire-screenaudio.inputs.nixpkgs.follows = "nixpkgs";
