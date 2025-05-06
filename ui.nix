@@ -44,6 +44,7 @@
       fish.enable = true;
       gtk.enable = true;
       qt.enable = true;
+      nvf.enable = false;
     };
   };
 

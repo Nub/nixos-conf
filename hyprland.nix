@@ -65,6 +65,8 @@
     withUWSM = true;
     xwayland.enable = true;
   };
+  services.hypridle.enable = true;
+  programs.hyprlock.enable = true;
   programs.xwayland.enable = true;
   programs.waybar.enable = true;
 }

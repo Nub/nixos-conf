@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.nvf.nixosModules.default
