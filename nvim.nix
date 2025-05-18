@@ -1,55 +1,164 @@
-{ inputs, ... }:
 {
-  imports = [
-    inputs.nvf.nixosModules.default
-  ];
+  vim = {
+    options = {
+      tabstop = 2;
+      shiftwidth = 2;
+    };
 
-  programs.nvf = {
-    enable = true;
-    settings.vim = {
-      options.tabstop = 4;
+    theme = {
+      enable = true;
+      style = "dark";
+      transparent = true;
+      name = "nord";
+      # name = "base16";
+      # base16-colors = {
+      #   inherit (config.lib.stylix.colors) base00 base01 base02 base03 base04 base05 base06 base07 base08 base09 base0A base0B base0C base0D base0E base0F;
+      # };
+    };
 
-      theme.enable = true;
-      theme.name = "onedark";
-      theme.style = "dark";
-      theme.transparent = true;
-
-      lsp.enable = true;
-      lsp.formatOnSave = true;
-
-      languages = {
-        enableLSP = true;
-        rust.enable = true;
-        rust.crates.enable = true;
-        nix.enable = true;
-        bash.enable = true;
+    ui = {
+      borders.enable = true;
+      noice.enable = true;
+      colorizer.enable = true;
+      illuminate.enable = true;
+      breadcrumbs = {
+        enable = false;
+        navbuddy.enable = false;
       };
-
-      terminal.toggleterm.enable = true;
-      terminal.toggleterm.mappings.open = "<C-\\>";
-
-      keymaps = [
-        {
-          key = "<C-\\>";
-          mode = ["t"];
-          silent = true;
-          action = "<C-\\><C-n><C-w>k";
-        }
-      ];
-
-      comments.comment-nvim.enable = true;
-      comments.comment-nvim.mappings.toggleSelectedLine = "<Space><Space>";
-      comments.comment-nvim.mappings.toggleCurrentLine = "<Space><Space>";
-
-      statusline.lualine.enable = true;
-      telescope.enable = true;
-      autocomplete.nvim-cmp.enable = true;
-      autopairs.nvim-autopairs.enable = true;
-      treesitter.context.enable = true;
-      binds = {
-        whichKey.enable = true;
-        cheatsheet.enable = true;
+      smartcolumn = {
+        enable = false;
       };
+      fastaction.enable = true;
+    };
+
+    spellcheck.enable = false;
+
+    lsp = {
+      enable = true;
+      formatOnSave = true;
+    };
+
+    languages = {
+      enableLSP = true;
+      enableFormat = true;
+      enableTreesitter = true;
+      enableExtraDiagnostics = true;
+
+      rust.enable = true;
+      nix.enable = true;
+      bash.enable = true;
+      wgsl.enable = true;
+    };
+
+    terminal.toggleterm.enable = true;
+    terminal.toggleterm.mappings.open = "<C-\\>";
+    terminal.toggleterm.setupOpts.winbar.enabled = false;
+
+    keymaps = [
+      {
+        key = "<C-\\>";
+        mode = ["t"];
+        action = "<cmd>ToggleTerm close<cr>";
+        desc = "Close toggle term";
+      }
+      {
+        key = "<leader>e";
+        mode = ["n"];
+        action = "<cmd>Neotree toggle<cr>";
+        desc = "File browser toggle";
+      }
+      {
+        key = "<leader>c";
+        mode = ["n"];
+        action = "<cmd>bd<cr>";
+        desc = "Close buffer";
+      }
+      {
+        key = "<leader>ff";
+        mode = ["n"];
+        action = "<cmd>Telescope find_files<cr>";
+        desc = "Search files by name";
+      }
+      {
+        key = "<leader>ft";
+        mode = ["n"];
+        action = "<cmd>Telescope live_grep<cr>";
+        desc = "Search files by contents";
+      }
+      {
+        key = "<C-h>";
+        mode = ["i"];
+        action = "<Left>";
+        desc = "Move left in insert mode";
+      }
+      {
+        key = "<C-j>";
+        mode = ["i"];
+        action = "<Down>";
+        desc = "Move down in insert mode";
+      }
+      {
+        key = "<C-k>";
+        mode = ["i"];
+        action = "<Up>";
+        desc = "Move up in insert mode";
+      }
+      {
+        key = "<C-l>";
+        mode = ["i"];
+        action = "<Right>";
+        desc = "Move right in insert mode";
+      }
+      {
+        key = "<leader>nh";
+        mode = ["n"];
+        action = ":nohl<CR>";
+        desc = "Clear search highlights";
+      }
+    ];
+
+    comments = {
+      comment-nvim = {
+        enable = true;
+        mappings.toggleSelectedLine = "<Space><Space>";
+        mappings.toggleCurrentLine = "<Space><Space>";
+      };
+    };
+
+    notify = {
+      nvim-notify.enable = true;
+    };
+
+    utility = {
+      ccc.enable = false;
+      # vim-wakatime.enable = false;
+      # icon-picker.enable = true;
+      surround.enable = true;
+      diffview-nvim.enable = true;
+      # motion = {
+      #   hop.enable = true;
+      #   leap.enable = true;
+      #   precognition.enable = false;
+      # };
+
+      images = {
+        image-nvim.enable = false;
+      };
+    };
+
+    statusline.lualine.enable = true;
+    telescope.enable = true;
+    autocomplete.nvim-cmp.enable = true;
+    autopairs.nvim-autopairs.enable = true;
+    binds = {
+      whichKey.enable = true;
+      cheatsheet.enable = true;
+    };
+    filetree.neo-tree.enable = true;
+    git = {
+      enable = true;
+      gitsigns.enable = true;
+      gitsigns.codeActions.enable = false; # throws an annoying debug message
     };
   };
 }

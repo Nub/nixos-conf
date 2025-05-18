@@ -1,5 +1,9 @@
-{ pkgs, config, ... }:
 {
+  inputs,
+  config,
+  pkgs,
+  ...
+}: {
   services.greetd = {
     enable = true;
     settings = {
@@ -10,11 +14,20 @@
     };
   };
 
+  systemd.services.greetd = {
+    unitConfig = {
+      After = pkgs.lib.mkOverride 0 ["multi-user.target"];
+    };
+    serviceConfig = {
+      Type = "idle";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     greetd.tuigreet
-    dolphin
     wofi
-    firefox-wayland
+    kdePackages.xwaylandvideobridge
+    (firefox-wayland.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];})
     (chromium.override {
       commandLineArgs = [
         "--ozone-platform-hint=auto"
@@ -22,62 +35,38 @@
     })
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
-        wlrobs
         obs-backgroundremoval
         obs-pipewire-audio-capture
+        obs-vkcapture
+        obs-gstreamer
       ];
     })
+    v4l-utils
   ];
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+  environment.variables = {
+    NIXOS_OZONE_WL = 1;
+  };
 
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
   ];
-  boot.kernelModules = [ "v4l2loopback" ];
   boot.extraModprobeConfig = ''
     options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
   '';
 
-  #  xdg.portal = {
-  #    enable = true;
-  #    wlr.enable = true;
-  #    extraPortals = [
-  #      pkgs.xdg-desktop-portal-gtk
-  #      pkgs.xdg-desktop-portal
-  #    ];
-  #    configPackages = [
-  #      pkgs.xdg-desktop-portal-gtk
-  #      pkgs.xdg-desktop-portal-hyprland
-  #      pkgs.xdg-desktop-portal
-  #    ];
-  #  };
-
-  xdg = {
-    portal = {
-      enable = true;
-      wlr.enable = true;
-      xdgOpenUsePortal = true;
-      config = {
-        common.default = [ "gtk" ];
-        hyprland.default = [
-          "gtk"
-          "hyprland"
-        ];
-      };
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-hyprland
-      ];
-    };
-  };
-
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
-  programs.hyprland.enable = true;
-  programs.hyprland.withUWSM = true;
-  programs.hyprland.xwayland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
+  services.hypridle.enable = true;
+  programs.hyprlock.enable = true;
+  programs.xwayland.enable = true;
   programs.waybar.enable = true;
 }

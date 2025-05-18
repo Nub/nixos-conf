@@ -1,45 +1,51 @@
-{ inputs, pkgs, ... }:
 {
-
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.stylix.nixosModules.stylix
   ];
 
-  stylix.enable = true;
-  stylix.polarity = "dark";
-  stylix.image = ./wallpaper.jpg;
-  stylix.fonts = {
-    sizes = {
-      applications = 12;
-      desktop = 12;
-      popups = 12;
-      terminal = 14;
-    };
-    serif = {
-      package = pkgs.dejavu_fonts;
-      name = "DejaVu Serif";
-    };
+  stylix = {
+    enable = true;
+    image = ./wallpaper.jpg;
+    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    fonts = {
+      sizes = {
+        applications = 16;
+        desktop = 16;
+        popups = 16;
+        terminal = 18;
+      };
+      serif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Serif";
+      };
 
-    sansSerif = {
-      package = pkgs.dejavu_fonts;
-      name = "DejaVu Sans";
-    };
+      sansSerif = {
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Sans";
+      };
 
-    monospace = {
-      package = pkgs.nerd-fonts.fira-code;
-      name = "DejaVu Sans Mono";
-    };
+      monospace = {
+        package = pkgs.nerd-fonts.fira-code;
+        name = "DejaVu Sans Mono";
+      };
 
-    emoji = {
-      package = pkgs.noto-fonts-emoji;
-      name = "Noto Color Emoji";
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
     };
-  };
-  stylix.targets = {
-    chromium.enable = true;
-    fish.enable = true;
-    gtk.enable = true;
-    qt.enable = true;
+    targets = {
+      chromium.enable = true;
+      fish.enable = true;
+      gtk.enable = true;
+      qt.enable = true;
+      nvf.enable = false;
+    };
   };
 
   time.timeZone = "America/Los_Angeles";

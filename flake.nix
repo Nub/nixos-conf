@@ -12,30 +12,42 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.url = "github:hyprwm/Hyprland?submodules=1";
+    hyprland.inputs.nixpkgs.follows = "nixpkgs";
+    pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
+    pipewire-screenaudio.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    inputs:
-    let
-      inherit (inputs.nixpkgs.lib) nixosSystem;
-    in
-    {
-      nixosConfigurations = {
-        zgamer = nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
+  outputs = inputs: let
+    inherit (inputs.nixpkgs.lib) nixosSystem;
+    mkSystem = system: modules:
+      nixosSystem {
+        inherit system modules;
+        specialArgs = {inherit inputs;};
+      };
+  in
+    inputs.utils.lib.eachDefaultSystem (system: let
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
+    in {
+      # Packages
+      packages = {
+        nvim =
+          (inputs.nvf.lib.neovimConfiguration {
+            inherit pkgs;
+            modules = [{config = import ./nvim.nix;}];
+          })
+          .neovim;
+
+        # Machine configurations
+        nixosConfigurations = {
+          zgamer = mkSystem system [
             ./zgamer.nix
           ];
-        };
 
-        graybeard = nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
+          graybeard = mkSystem system [
             ./graybeard.nix
           ];
         };
       };
-    };
+    });
 }

@@ -1,10 +1,8 @@
-{ ... }:
-{
+{...}: {
   imports = [
     ./hardware/graybeard.nix
     ./user.nix
     ./wireless.nix
-    ./nvim.nix
     ./cooler.nix
     ./ui.nix
     ./home.nix
