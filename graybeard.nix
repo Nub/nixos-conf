@@ -9,7 +9,9 @@
     ./ci.nix
   ];
 
-  networking.firewall.allowedUDPPorts = [63436];
+  networking.firewall.allowedUDPPorts = [ 63436 8000 ];
   nixpkgs.config.allowUnfree = true;
   networking.hostName = "graybeard";
+
+  services.ddns-updater.enable = true;
 }

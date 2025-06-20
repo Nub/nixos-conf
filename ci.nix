@@ -1,11 +1,14 @@
-{...}:
+{ ... }:
 {
-services.github-runners = {
-graybeard = {
+  services.logind.extraConfig = ''
+    RuntimeDirectorySize=100G
+  '';
+  services.github-runners = {
+    graybeard = {
       enable = true;
-      name = "runner";
+      name = "graybeard";
       tokenFile = ./ci_token;
       url = "https://github.com/Nub/graybeard";
     };
-};
+  };
 }
