@@ -21,14 +21,16 @@
       home.sessionVariables = {};
       home.packages = with pkgs; [
         inputs.nix-warez.packages.x86_64-linux.blender_4_2
+        popcorntime
+        vlc
         discord
         alacritty
         spotify
         liquidctl
         systemctl-tui
+        nix-tree
         udisks
         helix
-        alacritty
         fd
         unzip
         zip
@@ -76,6 +78,7 @@
         };
         git = {
           enable = true;
+          lfs.enable = true;
           package = pkgs.gitAndTools.gitFull;
           userName = "Zachry Thayer";
           userEmail = "zachthayer@gmail.com";
@@ -100,8 +103,9 @@
             window = {
               padding = {
                 x = 16;
-                y = 14;
+                y = 12;
               };
+              opacity = pkgs.lib.mkForce 0.95;
             };
           };
         };

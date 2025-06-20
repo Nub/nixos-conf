@@ -154,7 +154,12 @@
       whichKey.enable = true;
       cheatsheet.enable = true;
     };
-    filetree.neo-tree.enable = true;
+    filetree.neo-tree = {
+      enable = true;
+      setupOpts = {
+        close_if_last_window = true;
+      };
+    };
     git = {
       enable = true;
       gitsigns.enable = true;
