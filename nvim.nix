@@ -50,9 +50,13 @@
       wgsl.enable = true;
     };
 
-    terminal.toggleterm.enable = true;
-    terminal.toggleterm.mappings.open = "<C-\\>";
-    terminal.toggleterm.setupOpts.winbar.enabled = false;
+    terminal = {
+      toggleterm = {
+        enable = true;
+        mappings.open = "<C-\\>";
+        setupOpts.winbar.enabled = false;
+      };
+    };
 
     keymaps = [
       {
@@ -74,6 +78,18 @@
         desc = "Close buffer";
       }
       {
+        key = "<leader>d";
+        mode = ["n"];
+        action = "<cmd>Telescope diagnostics<cr>";
+        desc = "Search diagnostics";
+      }
+      {
+        key = "<leader>i";
+        mode = ["n"];
+        action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+        desc = "Pull up docs";
+      }
+      {
         key = "<leader>ff";
         mode = ["n"];
         action = "<cmd>Telescope find_files<cr>";
@@ -84,6 +100,18 @@
         mode = ["n"];
         action = "<cmd>Telescope live_grep<cr>";
         desc = "Search files by contents";
+      }
+      {
+        key = "<leader>fr";
+        mode = ["n"];
+        action = "<cmd>Telescope lsp_references<cr>";
+        desc = "Search references";
+      }
+      {
+        key = "<leader>fs";
+        mode = ["n"];
+        action = "<cmd>Telescope lsp_document_symbols<cr>";
+        desc = "Search symbols";
       }
       {
         key = "<C-h>";

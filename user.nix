@@ -18,6 +18,8 @@
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
+    dotnet-sdk
+    webkitgtk_4_1
     stdenv.cc.cc
     openssl
     libelf

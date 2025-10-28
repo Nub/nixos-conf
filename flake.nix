@@ -29,6 +29,9 @@
     nix-citizen.url = "github:LovingMelody/nix-citizen";
     nix-citizen.inputs.nixpkgs.follows = "nixpkgs";
     nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
+
+    hypr-exiled.url = "github:gfsd3v/hypr-exiled";
+    hypr-exiled.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let

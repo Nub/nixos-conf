@@ -14,6 +14,10 @@
     };
   };
 
+  services.xserver.xkb = {
+    layout = "us";
+  };
+
   systemd.services.greetd = {
     unitConfig = {
       After = pkgs.lib.mkOverride 0 ["multi-user.target"];

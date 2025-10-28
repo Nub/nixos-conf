@@ -17,8 +17,9 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     users.zach = {pkgs, ...}: {
-      home.stateVersion = "24.11";
+      home.stateVersion = "25.11";
       home.sessionVariables = {};
+      home.sessionPath = ["$HOME/.cargo/bin"];
       home.packages = with pkgs; [
         inputs.nix-warez.packages.x86_64-linux.blender_4_2
         popcorntime

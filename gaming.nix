@@ -17,6 +17,20 @@
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
 
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+    package = pkgs.appimage-run.override {
+      extraPkgs = pkgs:
+        with pkgs; [
+          xorg.xkeyboardconfig
+          libxkbcommon
+          dotnet-sdk
+          webkitgtk_4_1
+        ];
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     lutris
@@ -29,9 +43,5 @@
     vulkan-tools
     mesa-demos
     inputs.nix-citizen.packages.${pkgs.system}.star-citizen-umu
-    # inputs.nix-gaming.packages.${pkgs.system}.star-citizen
-    # (inputs.nix-gaming.packages.${pkgs.hostPlatform.system}.star-citizen.override {
-    #   tricks = ["arial" "vcrun2019" "win10" "sound=alsa"];
-    # })
   ];
 }
