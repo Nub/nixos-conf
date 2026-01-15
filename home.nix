@@ -60,6 +60,7 @@
         font-awesome
         nerd-fonts.fira-code
         nerd-fonts.droid-sans-mono
+        inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
       ];
       programs = {
         chromium.enable = true;
@@ -111,6 +112,7 @@
           };
         };
       };
+
       home.file = {
         i3 = {
           target = ".config/i3/config";

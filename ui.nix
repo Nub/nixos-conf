@@ -39,6 +39,13 @@
         name = "Noto Color Emoji";
       };
     };
+
+    cursor = {
+      package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+      name = "rose-pine-hyprcursor";
+      size = 48;
+    };
+
     targets = {
       chromium.enable = true;
       fish.enable = true;
