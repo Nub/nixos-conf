@@ -21,7 +21,8 @@
       home.sessionVariables = {};
       home.sessionPath = ["$HOME/.cargo/bin"];
       home.packages = with pkgs; [
-        inputs.nix-warez.packages.x86_64-linux.blender_4_2
+        # inputs.nix-warez.packages.x86_64-linux.blender_4_2
+        blender
         popcorntime
         vlc
         discord
@@ -47,9 +48,9 @@
         ripgrep
         htop
         tmux
-        xfce.thunar
-        xfce.thunar-archive-plugin
-        xfce.thunar-volman
+        thunar
+        thunar-archive-plugin
+        thunar-volman
         xdg-utils
         glib
         dracula-theme
@@ -80,7 +81,6 @@
         git = {
           enable = true;
           lfs.enable = true;
-          package = pkgs.gitAndTools.gitFull;
           userName = "Zachry Thayer";
           userEmail = "zachthayer@gmail.com";
           extraConfig = {

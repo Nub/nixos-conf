@@ -17,9 +17,16 @@
   hardware.nvidia = {
     modesetting.enable = true;
     nvidiaSettings = true;
-    # package = config.boot.kernelPackages.nvidiaPackages.beta;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
-    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    # package = config.boot.kernelPackages.nvidiaPackages.latest;
+    # package = config.boot.kernelPackages.nvidiaPackages.production.overrideAttrs (oldAttrs: rec {
+    #   version = "590.48.01";
+    #   src = pkgs.fetchurl {
+    #     url = "https://us.download.nvidia.com/XFree86/Linux-x86_64/${version}/NVIDIA-Linux-x86_64-${version}.run";
+    #     sha256 = "sha256-ueL4BpN4FDHMh/TNKRCeEz3Oy1ClDWto1LO/LWlr1ok=";
+    #   };
+    # });
+    open = true;
     powerManagement.enable = true;
   };
 

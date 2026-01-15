@@ -28,10 +28,9 @@
   };
 
   environment.systemPackages = with pkgs; [
-    greetd.tuigreet
+    tuigreet
     wofi
-    kdePackages.xwaylandvideobridge
-    (firefox-wayland.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];})
+    firefox
     (chromium.override {
       commandLineArgs = [
         "--ozone-platform-hint=auto"

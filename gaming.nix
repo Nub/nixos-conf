@@ -42,6 +42,5 @@
     corectrl
     vulkan-tools
     mesa-demos
-    inputs.nix-citizen.packages.${pkgs.system}.star-citizen-umu
   ];
 }
