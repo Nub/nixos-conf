@@ -10,7 +10,7 @@
 
   programs.nvf = {
     enable = true;
-    settings = import ./nvim.nix;
+    settings = (import ./nvim.nix) {inherit pkgs;};
   };
 
   home-manager = {
@@ -21,7 +21,6 @@
       home.sessionVariables = {};
       home.sessionPath = ["$HOME/.cargo/bin"];
       home.packages = with pkgs; [
-        # inputs.nix-warez.packages.x86_64-linux.blender_4_2
         blender
         popcorntime
         vlc
@@ -63,7 +62,6 @@
         inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
       ];
       programs = {
-        chromium.enable = true;
         home-manager.enable = true;
         fish = {
           enable = true;

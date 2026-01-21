@@ -35,6 +35,7 @@
       commandLineArgs = [
         "--ozone-platform-hint=auto"
       ];
+      enableWideVine = true;
     })
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [

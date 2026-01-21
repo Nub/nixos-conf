@@ -1,9 +1,13 @@
-{
+{pkgs, ...}: {
   vim = {
     options = {
       tabstop = 2;
       shiftwidth = 2;
     };
+
+    startPlugins = [
+      "rustaceanvim"
+    ];
 
     theme = {
       enable = true;
@@ -159,16 +163,8 @@
 
     utility = {
       ccc.enable = false;
-      # vim-wakatime.enable = false;
-      # icon-picker.enable = true;
       surround.enable = true;
       diffview-nvim.enable = true;
-      # motion = {
-      #   hop.enable = true;
-      #   leap.enable = true;
-      #   precognition.enable = false;
-      # };
-
       images = {
         image-nvim.enable = false;
       };
@@ -178,16 +174,19 @@
     telescope.enable = true;
     autocomplete.nvim-cmp.enable = true;
     autopairs.nvim-autopairs.enable = true;
+
     binds = {
       whichKey.enable = true;
       cheatsheet.enable = true;
     };
+
     filetree.neo-tree = {
       enable = true;
       setupOpts = {
         close_if_last_window = true;
       };
     };
+
     git = {
       enable = true;
       gitsigns.enable = true;

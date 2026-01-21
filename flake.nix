@@ -43,7 +43,11 @@
         nvim =
           (inputs.nvf.lib.neovimConfiguration {
             inherit pkgs;
-            modules = [{config = import ./nvim.nix;}];
+            modules = [
+              {
+                config = (import ./nvim.nix) {inherit pkgs;};
+              }
+            ];
           })
           .neovim;
 
