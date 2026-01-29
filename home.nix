@@ -43,7 +43,7 @@
         usbutils
         can-utils
         flameshot
-        nixfmt-rfc-style
+        nixfmt
         ripgrep
         htop
         tmux
@@ -59,7 +59,7 @@
         font-awesome
         nerd-fonts.fira-code
         nerd-fonts.droid-sans-mono
-        inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+        inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
       programs = {
         home-manager.enable = true;
@@ -80,9 +80,11 @@
         git = {
           enable = true;
           lfs.enable = true;
-          userName = "Zachry Thayer";
-          userEmail = "zachthayer@gmail.com";
-          extraConfig = {
+          settings = {
+            user = {
+              name = "Zachry Thayer";
+              email = "zachthayer@gmail.com";
+            };
             core.editor = "nvim";
           };
           includes = [

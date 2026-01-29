@@ -41,7 +41,7 @@
     };
 
     cursor = {
-      package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+      package = inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default;
       name = "rose-pine-hyprcursor";
       size = 48;
     };
