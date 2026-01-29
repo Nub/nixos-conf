@@ -12,9 +12,10 @@
     ./hyprland.nix
     ./work.nix
     # ./nordvpn.nix
+    ./ai.nix
   ];
 
-  networking.firewall.allowedUDPPorts = [63436];
+  networking.firewall.allowedUDPPorts = [63436 5520];
   nixpkgs.config.allowUnfree = true;
   networking.hostName = "zgamer";
   networking.networkmanager.enable = true;
