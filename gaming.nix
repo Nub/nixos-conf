@@ -2,7 +2,9 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  system = pkgs.stdenv.hostPlatform.system;
+in {
   imports = [
     inputs.nix-gaming.nixosModules.platformOptimizations
   ];
@@ -31,6 +33,8 @@
     };
   };
 
+  services.flatpak.enable = true;
+
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     lutris
@@ -42,5 +46,6 @@
     corectrl
     vulkan-tools
     mesa-demos
+    inputs.hytale-launcher.packages.${system}.default
   ];
 }
