@@ -1,8 +1,8 @@
 { ... }:
 {
-  services.logind.extraConfig = ''
-    RuntimeDirectorySize=100G
-  '';
+  services.logind.settings.Login = {
+    RuntimeDirectorySize = "100G";
+  };
   services.github-runners = {
     graybeard = {
       enable = true;

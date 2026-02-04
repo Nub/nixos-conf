@@ -7,6 +7,8 @@
     ./ui.nix
     ./home.nix
     ./ci.nix
+    # Users
+    (import ./lib/mkUser.nix (import ./users/zach.nix))
   ];
 
   networking.firewall.allowedUDPPorts = [ 63436 8000 ];

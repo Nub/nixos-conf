@@ -32,6 +32,8 @@
       url = "github:coder/claudecode.nvim";
       flake = false;
     };
+
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs = inputs: let
@@ -42,10 +44,10 @@
         specialArgs = {inherit inputs;};
       };
   in
-    inputs.utils.lib.eachDefaultSystem (system: let
+    # Merge per-system outputs (packages) with system-wide outputs (nixosConfigurations)
+    (inputs.utils.lib.eachDefaultSystem (system: let
       pkgs = inputs.nixpkgs.legacyPackages.${system};
     in {
-      # Packages
       packages = {
         nvim =
           (inputs.nvf.lib.neovimConfiguration {
@@ -57,17 +59,18 @@
             ];
           })
           .neovim;
-
-        # Machine configurations
-        nixosConfigurations = {
-          zgamer = mkSystem system [
-            ./zgamer.nix
-          ];
-
-          graybeard = mkSystem system [
-            ./graybeard.nix
-          ];
-        };
       };
-    });
+    }))
+    // {
+      # Machine configurations (at top level, not per-system)
+      nixosConfigurations = {
+        zgamer = mkSystem "x86_64-linux" [
+          ./zgamer.nix
+        ];
+
+        graybeard = mkSystem "x86_64-linux" [
+          ./graybeard.nix
+        ];
+      };
+    };
 }

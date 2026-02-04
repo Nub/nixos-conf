@@ -1,20 +1,10 @@
+# System-wide settings (not user-specific)
+# User configuration is now handled by lib/mkUser.nix
 {pkgs, ...}: {
   imports = [];
 
   services.avahi.enable = true;
   services.openssh.enable = true;
-
-  users.users.zach = {
-    isNormalUser = true;
-    description = "zach";
-    hashedPassword = "$y$j9T$LPJ53nJ9NA6ZlffHHiPc1/$LwcNqFHTSWTbc8YeTa0WftmfdkImVPsNSIQiczi3yUC";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    shell = pkgs.fish;
-  };
-  programs.fish.enable = true;
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -63,5 +53,5 @@
     "nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="
   ];
 
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "24.11";
 }

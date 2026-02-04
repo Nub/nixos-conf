@@ -5,7 +5,6 @@
     ./home.nix
     ./wireless.nix
     ./gaming.nix
-    ./wireless.nix
     ./cooler.nix
     ./ui.nix
     ./audio.nix
@@ -13,6 +12,8 @@
     ./work.nix
     # ./nordvpn.nix
     ./ai.nix
+    # Users
+    (import ./lib/mkUser.nix (import ./users/zach.nix))
   ];
 
   networking.firewall.allowedUDPPorts = [63436 5520];
