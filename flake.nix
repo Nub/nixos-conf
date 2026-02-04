@@ -27,6 +27,11 @@
     };
 
     hytale-launcher.url = "github:JPyke3/hytale-launcher-nix";
+
+    claudecode-nvim = {
+      url = "github:coder/claudecode.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs: let
@@ -47,7 +52,7 @@
             inherit pkgs;
             modules = [
               {
-                config = (import ./nvim.nix) {inherit pkgs;};
+                config = (import ./nvim.nix) {inherit pkgs inputs;};
               }
             ];
           })

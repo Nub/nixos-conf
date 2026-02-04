@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, inputs, ...}: {
   vim = {
     options = {
       tabstop = 2;
@@ -8,6 +8,17 @@
     startPlugins = [
       "rustaceanvim"
     ];
+
+    extraPlugins = {
+      claudecode = {
+        package = pkgs.vimUtils.buildVimPlugin {
+          pname = "claudecode-nvim";
+          version = "main";
+          src = inputs.claudecode-nvim;
+        };
+        setup = "require('claudecode').setup {}";
+      };
+    };
 
     theme = {
       enable = true;
@@ -145,6 +156,24 @@
         mode = ["n"];
         action = ":nohl<CR>";
         desc = "Clear search highlights";
+      }
+      {
+        key = "<leader>ac";
+        mode = ["n"];
+        action = "<cmd>ClaudeCode<cr>";
+        desc = "Toggle Claude Code";
+      }
+      {
+        key = "<leader>as";
+        mode = ["n"];
+        action = "<cmd>ClaudeCodeSend<cr>";
+        desc = "Send to Claude Code";
+      }
+      {
+        key = "<leader>as";
+        mode = ["v"];
+        action = "<cmd>ClaudeCodeSend<cr>";
+        desc = "Send selection to Claude Code";
       }
     ];
 

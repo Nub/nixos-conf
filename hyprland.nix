@@ -62,6 +62,7 @@
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
+  programs.ydotool.enable = true;
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;

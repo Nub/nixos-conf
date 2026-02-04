@@ -10,7 +10,7 @@
 
   programs.nvf = {
     enable = true;
-    settings = (import ./nvim.nix) {inherit pkgs;};
+    settings = (import ./nvim.nix) {inherit pkgs inputs;};
   };
 
   home-manager = {

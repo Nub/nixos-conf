@@ -101,6 +101,22 @@
         "type": "github"
       }
     },
+    "claudecode-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769438551,
+        "narHash": "sha256-B6BA+3h7RLmk+zk6O365DmY06ALdbbkFBmOaRH9muog=",
+        "owner": "coder",
+        "repo": "claudecode.nvim",
+        "rev": "aa9a5cebebdbfa449c1c5ff229ba5d98e66bafed",
+        "type": "github"
+      },
+      "original": {
+        "owner": "coder",
+        "repo": "claudecode.nvim",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -734,11 +750,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1768305791,
-        "narHash": "sha256-AIdl6WAn9aymeaH/NvBj0H9qM+XuAuYbGMZaP0zcXAQ=",
+        "lastModified": 1770019141,
+        "narHash": "sha256-VKS4ZLNx4PNrABoB0L8KUpc1fE7CLpQXQs985tGfaCU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+        "rev": "cb369ef2efd432b3cdf8622b0ffc0a97a02f3137",
         "type": "github"
       },
       "original": {
@@ -823,6 +839,7 @@
     },
     "root": {
       "inputs": {
+        "claudecode-nvim": "claudecode-nvim",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "hytale-launcher": "hytale-launcher",
