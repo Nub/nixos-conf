@@ -81,6 +81,10 @@ in {
         grim
         slurp
         bemenu
+        quickshell
+        imagemagick
+        wl-clipboard
+        satty
         font-awesome
         nerd-fonts.fira-code
         nerd-fonts.droid-sans-mono
@@ -156,6 +160,16 @@ in {
           recursive = true;
           target = ".config/waybar";
           source = ../dotfiles/waybar;
+        };
+        hyprquickframe = {
+          recursive = true;
+          target = ".config/quickshell/HyprQuickFrame";
+          source = pkgs.fetchFromGitHub {
+            owner = "Ronin-CK";
+            repo = "HyprQuickFrame";
+            rev = "ccad800c4614f1b4c1736f5723dd1a85406378e8";
+            hash = "sha256-/gCWM2SLElyio4SwaFQzkIXxBSTIb7HShYMC+izrHlo=";
+          };
         };
       };
     };

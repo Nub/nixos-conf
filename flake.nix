@@ -65,11 +65,11 @@
       # Machine configurations (at top level, not per-system)
       nixosConfigurations = {
         zgamer = mkSystem "x86_64-linux" [
-          ./zgamer.nix
+          ./machines/zgamer.nix
         ];
 
         graybeard = mkSystem "x86_64-linux" [
-          ./graybeard.nix
+          ./machines/graybeard.nix
         ];
       };
     };
