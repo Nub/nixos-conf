@@ -42,6 +42,10 @@ in {
     useUserPackages = true;
     useGlobalPkgs = true;
     users.${name} = {pkgs, ...}: {
+      imports = [
+        inputs.noctalia.homeModules.default
+      ];
+
       home.stateVersion = "25.11";
       home.sessionVariables = {};
       home.sessionPath = ["$HOME/.cargo/bin"];
@@ -91,6 +95,9 @@ in {
         inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
       programs = {
+        noctalia-shell = {
+          enable = true;
+        };
         home-manager.enable = true;
         fish = {
           enable = true;

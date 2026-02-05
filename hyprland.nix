@@ -29,7 +29,7 @@
 
   environment.systemPackages = with pkgs; [
     tuigreet
-    wofi
+    # wofi
     firefox
     (chromium.override {
       commandLineArgs = [
