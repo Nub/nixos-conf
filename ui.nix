@@ -11,7 +11,8 @@
     enable = true;
     image = ./wallpaper.jpg;
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/black-metal-bathory.yaml";
     fonts = {
       sizes = {
         applications = 16;
@@ -43,7 +44,7 @@
     cursor = {
       package = inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default;
       name = "rose-pine-hyprcursor";
-      size = 48;
+      size = 52;
     };
 
     targets = {

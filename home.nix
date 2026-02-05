@@ -2,6 +2,7 @@
 # Home-manager user config is now in lib/mkUser.nix
 {
   pkgs,
+  config,
   inputs,
   ...
 }: {
@@ -11,6 +12,6 @@
 
   programs.nvf = {
     enable = true;
-    settings = (import ./nvim.nix) {inherit pkgs inputs;};
+    settings = (import ./nvim.nix) {inherit pkgs config inputs;};
   };
 }
