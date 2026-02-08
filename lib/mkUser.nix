@@ -93,6 +93,8 @@ in {
         nerd-fonts.fira-code
         nerd-fonts.droid-sans-mono
         inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
+        brightnessctl
+        imagemagick
       ];
       programs = {
         noctalia-shell = {
