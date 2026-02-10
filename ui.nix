@@ -10,13 +10,14 @@
   stylix = {
     enable = true;
     image = ./wallpaper.jpg;
-    polarity = "dark";
+    # polarity = "dark";
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/black-metal-bathory.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/black-metal-bathory.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/chinoiserie-midnight.yaml";
     fonts = {
       sizes = {
-        applications = 14;
-        desktop = 14;
+        applications = 12;
+        desktop = 12;
         popups = 14;
         terminal = 14;
       };
