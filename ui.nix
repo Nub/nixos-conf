@@ -15,10 +15,10 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/black-metal-bathory.yaml";
     fonts = {
       sizes = {
-        applications = 16;
-        desktop = 16;
-        popups = 16;
-        terminal = 18;
+        applications = 14;
+        desktop = 14;
+        popups = 14;
+        terminal = 14;
       };
       serif = {
         package = pkgs.dejavu_fonts;
@@ -44,7 +44,7 @@
     cursor = {
       package = inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default;
       name = "rose-pine-hyprcursor";
-      size = 52;
+      size = 48;
     };
 
     targets = {
