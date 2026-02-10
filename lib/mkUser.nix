@@ -51,11 +51,10 @@ in {
       home.sessionPath = ["$HOME/.cargo/bin"];
       home.packages = with pkgs; [
         blender
-        popcorntime
         vlc
-        discord
+       # discord
         alacritty
-        spotify
+       # spotify
         liquidctl
         systemctl-tui
         nix-tree

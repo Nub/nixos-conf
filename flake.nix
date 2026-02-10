@@ -71,6 +71,10 @@
           ./machines/zgamer.nix
         ];
 
+        zbook = mkSystem "aarch64-linux" [
+          ./machines/zbook.nix
+        ];
+
         graybeard = mkSystem "x86_64-linux" [
           ./machines/graybeard.nix
         ];
