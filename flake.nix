@@ -37,6 +37,9 @@
     };
 
     claude-code.url = "github:sadjow/claude-code-nix";
+
+    obsidian-docsite.url = "git+ssh://git@github.com/Nub/obsidian-docsite.git";
+    obsidian-docsite.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let
