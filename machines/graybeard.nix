@@ -28,6 +28,7 @@
 
   services.obsidian-sync = {
     enable = true;
+    vaultDir = "/home/zach/Documents";
     vaults = ["Graybeard"];
   };
 
