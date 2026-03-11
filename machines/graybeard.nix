@@ -44,7 +44,8 @@
         client_id = "$GITHUB_CLIENT_ID";
         client_secret = "$GITHUB_CLIENT_SECRET";
       };
-      permissions.admins = ["admin@vothuul.com"];
+      permissions.default_access = "private";
+      permissions.admin_emails = ["admin@vothuul.com"];
       permissions.localhost_bypass = true;
       permissions.trust_proxy = true;
     };
