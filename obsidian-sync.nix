@@ -37,7 +37,7 @@ in {
         wants = ["network-online.target"];
         wantedBy = ["multi-user.target"];
 
-        path = [nodejs pkgs.bash];
+        path = [nodejs pkgs.bash pkgs.coreutils];
         environment = {
           HOME = "/home/${cfg.user}";
         };
@@ -45,8 +45,9 @@ in {
         serviceConfig = {
           Type = "simple";
           User = cfg.user;
+          ExecStartPre = "${pkgs.coreutils}/bin/rm -rf ${cfg.vaultDir}/${vault}/.obsidian/.sync.lock";
           ExecStart = "${nodejs}/bin/npx --yes --package=obsidian-headless ob sync --continuous --path ${cfg.vaultDir}/${vault}";
-          Restart = "on-failure";
+          Restart = "always";
           RestartSec = 30;
         };
       })
