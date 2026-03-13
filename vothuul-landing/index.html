@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOTHUUL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a0a;
+  color: #00ff41;
+  font-family: 'Share Tech Mono', 'Courier New', Courier, monospace;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+body.glitch-active::after { opacity: 0.7; }
+
+#container {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+#typing-display {
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  min-height: 2em;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+#typing-display .cursor { animation: blink 0.7s step-end infinite; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+#skull {
+  font-size: clamp(0.2rem, 0.85vw, 0.55rem);
+  line-height: 1.15;
+  color: #c8b0ff;
+  opacity: 0;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+  transform: scale(1.8);
+  filter: blur(4px) brightness(3);
+  white-space: pre;
+}
+
+#skull.slam-in {
+  animation: skullSlam 0.6s cubic-bezier(0.15, 0.8, 0.3, 1.1) forwards;
+}
+
+@keyframes skullSlam {
+  0% { opacity: 1; transform: scale(1.8); filter: blur(4px) brightness(3); }
+  40% { opacity: 1; transform: scale(0.95); filter: blur(0px) brightness(1.2); }
+  60% { transform: scale(1.03); filter: blur(0px) brightness(1); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0px) brightness(1); }
+}
+
+#skull.revealed {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px) brightness(1);
+}
+
+#skull.idle-glow {
+  animation: skullGlow 3s ease-in-out infinite;
+}
+
+@keyframes skullGlow {
+  0%, 100% { text-shadow: 0 0 5px rgba(139, 0, 255, 0.4), 0 0 15px rgba(139, 0, 255, 0.15); filter: brightness(1); }
+  50% { text-shadow: 0 0 15px rgba(139, 0, 255, 0.6), 0 0 30px rgba(139, 0, 255, 0.25), 0 0 50px rgba(255, 0, 64, 0.1); filter: brightness(1.05); }
+}
+
+#title {
+  font-size: clamp(1.5rem, 6vw, 4rem);
+  letter-spacing: 0.3em;
+  color: #ff0040;
+  opacity: 0;
+  margin-top: 0.5em;
+  transform: translateY(30px);
+}
+
+#title.slam-in {
+  animation: titleSlam 0.5s cubic-bezier(0.15, 0.8, 0.3, 1.05) forwards;
+}
+
+@keyframes titleSlam {
+  0% { opacity: 0; transform: translateY(30px); }
+  50% { opacity: 1; transform: translateY(-3px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+#title.idle-glow {
+  opacity: 1;
+  transform: translateY(0);
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 0 10px #ff0040, 0 0 20px rgba(255, 0, 64, 0.3); }
+  50% { text-shadow: 0 0 20px #ff0040, 0 0 40px rgba(255, 0, 64, 0.5), 0 0 60px rgba(139, 0, 255, 0.2); }
+}
+
+#social-links {
+  margin-top: 2em;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em 1.5em;
+}
+
+#social-links.visible { opacity: 1; }
+
+#social-links a {
+  color: #888;
+  text-decoration: none;
+  font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+  letter-spacing: 0.15em;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+#social-links a:hover {
+  color: #fff;
+  text-shadow: 0 0 10px #8b00ff, 0 0 20px #8b00ff;
+}
+
+/* Flash overlay */
+#flash-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: white;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Crack lines overlay */
+#cracks-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Shards container */
+#shards-container {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 400;
+  pointer-events: none;
+}
+
+.shard {
+  position: absolute;
+  background: #0a0a0a;
+  border: 1px solid rgba(139, 0, 255, 0.3);
+  transition: none;
+}
+
+.shard.shatter {
+  transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.8s ease;
+}
+
+/* Impact shake */
+.impact-shake {
+  animation: impactShake 0.4s ease-out;
+}
+
+@keyframes impactShake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-8px, -5px); }
+  20% { transform: translate(7px, 4px); }
+  30% { transform: translate(-6px, 3px); }
+  40% { transform: translate(5px, -4px); }
+  50% { transform: translate(-3px, 2px); }
+  60% { transform: translate(2px, -2px); }
+  70% { transform: translate(-1px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Glitch effects */
+.shake { animation: shake 0.05s infinite; }
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px); }
+  10% { transform: translate(-1px, -2px); }
+  20% { transform: translate(-3px, 0px); }
+  30% { transform: translate(3px, 2px); }
+  40% { transform: translate(1px, -1px); }
+  50% { transform: translate(-1px, 2px); }
+  60% { transform: translate(-3px, 1px); }
+  70% { transform: translate(3px, 1px); }
+  80% { transform: translate(-1px, -1px); }
+  90% { transform: translate(1px, 2px); }
+  100% { transform: translate(1px, -2px); }
+}
+
+.flicker { animation: flicker 0.1s infinite; }
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  25% { opacity: 0.85; }
+  50% { opacity: 1; }
+  75% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+.chromatic { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; }
+.chromatic-intense { text-shadow: -4px 0 #ff0000, 4px 0 #00ffff, 0 2px #ff00ff; }
+
+/* Skull glitch: violent shake */
+.skull-shake {
+  animation: skullViolentShake 0.3s steps(3) infinite;
+}
+
+@keyframes skullViolentShake {
+  0% { transform: translate(-6px, 2px) skewX(-4deg); }
+  14% { transform: translate(5px, -3px) skewX(3deg); }
+  28% { transform: translate(-3px, -1px) skewX(-2deg); }
+  42% { transform: translate(7px, 3px) skewX(5deg); }
+  57% { transform: translate(-4px, -2px) skewX(-3deg); }
+  71% { transform: translate(2px, 4px) skewX(2deg); }
+  85% { transform: translate(-8px, -1px) skewX(-5deg); }
+  100% { transform: translate(4px, 2px) skewX(4deg); }
+}
+
+/* Skull glitch: chromatic tear */
+.skull-chromatic-tear {
+  animation: chromaticTear 0.4s steps(4) infinite;
+}
+
+@keyframes chromaticTear {
+  0% { text-shadow: -6px 0 #ff0000, 6px 0 #00ffff; filter: brightness(1.6); transform: skewX(-3deg); }
+  25% { text-shadow: 4px 2px #ff0040, -4px -2px #00ffcc; filter: brightness(0.7); transform: skewX(2deg) translateX(3px); }
+  50% { text-shadow: -8px 0 #ff0000, 8px 0 #00ffff, 0 3px #ff00ff; filter: brightness(2); transform: skewX(-5deg) translateX(-4px); }
+  75% { text-shadow: 3px -1px #ff0040, -5px 1px #00ffff; filter: brightness(0.5); transform: skewX(4deg) translateX(2px); }
+  100% { text-shadow: -6px 0 #ff0000, 6px 0 #00ffff; filter: brightness(1.3); transform: skewX(-2deg); }
+}
+
+/* Skull glitch: horizontal tear/split */
+#skull.h-tear {
+  clip-path: inset(0);
+}
+
+/* Used by JS to animate scan-line tear offset via inline style */
+</style>
+</head>
+<body>
+<div id="flash-overlay"></div>
+<div id="cracks-overlay"><svg id="cracks-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div id="shards-container"></div>
+<div id="container">
+  <div id="typing-display"></div>
+  <pre id="skull"></pre>
+  <h1 id="title">VOTHUUL</h1>
+  <div id="social-links">
+    <a href="#discord">[ DISCORD ]</a>
+    <a href="#twitter">[ TWITTER ]</a>
+    <a href="mailto:placeholder@vothuul.com">[ EMAIL ]</a>
+    <a href="#instagram">[ INSTAGRAM ]</a>
+  </div>
+</div>
+
+<script>
+const SKULL = `                             ...----....
+                         ..-:"''         ''"-..
+                      .-'                      '-.
+                    .'              .     .       '.
+                  .'   .          .    .      .    .''.
+                .'  .    .       .   .   .     .   . ..:.
+              .' .   . .  .       .   .   ..  .   . ....::.
+             ..   .   .      .  .    .     .  ..  . ....:IA.
+            .:  .   .    .    .  .  .    .. .  .. .. ....:IA.
+           .: .   .   ..   .    .     . . .. . ... ....:.:VHA.
+           '..  .  .. .   .       .  . .. . .. . .....:.::IHHB.
+          .:. .  . .  . .   .  .  . . . ...:.:... .......:HIHMM.
+         .:.... .   . ."::"'.. .   .  . .:.:.:II;,. .. ..:IHIMMA
+         ':.:..  ..::IHHHHHI::. . .  ...:.::::.,,,. . ....VIMMHM
+        .:::I. .AHHHHHHHHHHAI::. .:...,:IIHHHHHHMMMHHL:. . VMMMM
+       .:.:V.:IVHHHHHHHMHMHHH::..:" .:HIHHHHHHHHHHHHHMHHA. .VMMM.
+       :..V.:IVHHHHHMMHHHHHHHB... . .:VPHHMHHHMMHHHHHHHHHAI.:VMMI
+       ::V..:VIHHHHHHMMMHHHHHH. .   .I":IIMHHMMHHHHHHHHHHHAPI:WMM
+       ::". .:.HHHHHHHHMMHHHHHI.  . .:..I:MHMMHHHHHHHHHMHV:':H:WM
+       :: . :.::IIHHHHHHMMHHHHV  .ABA.:.:IMHMHMMMHMHHHHV:'. .IHWW
+       '.  ..:..:.:IHHHHHMMHV" .AVMHMA.:.'VHMMMMHHHHHV:' .  :IHWV
+        :.  .:...:".:.:TPP"   .AVMMHMMA.:. "VMMHHHP.:... .. :IVAI
+       .:.   '... .:"'   .   ..HMMMHMMMA::. ."VHHI:::....  .:IHW'
+       ...  .  . ..:IIPPIH: ..HMMMI.MMMV:I:.  .:ILLH:.. ...:I:IM
+     : .   .'"' .:.V". .. .  :HMMM:IMMMI::I. ..:HHIIPPHI::'.P:HM.
+     :.  .  .  .. ..:.. .    :AMMM IMMMM..:...:IV":T::I::.".:IHIMA
+     'V:.. .. . .. .  .  .   'VMMV..VMMV :....:V:.:..:....::IHHHMH
+       "IHH:.II:.. .:. .  . . . " :HB"" . . ..PI:.::.:::..:IHHMMV"
+        :IP""HHII:.  .  .    . . .'V:. . . ..:IH:.:.::IHIHHMMMMM"
+        :V:. VIMA:I..  .     .  . .. . .  .:.I:I:..:IHHHHMMHHMMM
+        :"VI:.VWMA::. .:      .   .. .:. ..:.I::.:IVHHHMMMHMMMMI
+        :."VIIHHMMA:.  .   .   .:  .:.. . .:.II:I:AMMMMMMHMMMMMI
+        :..VIHIHMMMI...::.,:.,:!"I:!"I!"I!"V:AI:VAMMMMMMHMMMMMM'
+        ':.:HIHIMHHA:"!!"I.:AXXXVVXXXXXXXA:."HPHIMMMMHHMHMMMMMV
+          V:H:I:MA:W'I :AXXXIXII:IIIISSSSSSXXA.I.VMMMHMHMMMMMM
+            'I::IVA ASSSSXSSSSBBSBMBSSSSSSBBMMMBS.VVMMHIMM'"'
+             I:: VPAIMSSSSSSSSSBSSSMMBSSSBBMMMMXXI:MMHIMMI
+            .I::. "H:XIIXBBMMMMMMMMMMMMMMMMMBXIXXMMPHIIMM'
+            :::I.  ':XSSXXIIIIXSSBMBSSXXXIIIXXSMMAMI:.IMM
+            :::I:.  .VSSSSSISISISSSBII:ISSSSBMMB:MI:..:MM
+            ::.I:.  ':"SSSSSSSISISSXIIXSSSSBMMB:AHI:..MMM.
+            ::.I:. . ..:"BBSSSSSSSSSSSSBBBMMMB:AHHI::.HMMI
+            :..::.  . ..::":BBBBBSSBBBMMMB:MMMMHHII::IHHMI
+            ':.I:... ....:IHHHHHMMMMMMMMMMMMMMMHHIIIIHMMV"
+              "V:. ..:...:.IHHHMMMMMMMMMMMMMMMMHHHMHHMHP'
+               ':. .:::.:.::III::IHHHHMMMMMHMHMMHHHHM"
+                 "::....::.:::..:..::IIIIIHHHHMMMHHMV"
+                   "::.::.. .. .  ...:::IIHHMMMMHMV"
+                     "V::... . .I::IHHMMV"'
+                       '"VHVHHHAHHHHMMV:"'`;
+
+const TARGET = 'SITE UNDER CONSTRUCTION';
+const GLYPHS = '!@#$%^&*()_+-=[]{}|;:<>?/~ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const typingDisplay = document.getElementById('typing-display');
+const container = document.getElementById('container');
+const skull = document.getElementById('skull');
+const title = document.getElementById('title');
+const socialLinks = document.getElementById('social-links');
+const flashOverlay = document.getElementById('flash-overlay');
+const cracksOverlay = document.getElementById('cracks-overlay');
+const cracksSvg = document.getElementById('cracks-svg');
+const shardsContainer = document.getElementById('shards-container');
+
+function randomGlyph() {
+  return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+}
+
+// Phase 0: Boot
+function boot() {
+  typingDisplay.innerHTML = '<span class="cursor">█</span>';
+  setTimeout(startTyping, 500);
+}
+
+// Phase 1: Decryption typing
+function startTyping() {
+  const chars = new Array(TARGET.length).fill(null);
+  let resolved = 0;
+
+  function renderChars() {
+    let html = '';
+    for (let i = 0; i < TARGET.length; i++) {
+      if (chars[i] === null) break;
+      html += chars[i];
+    }
+    html += '<span class="cursor">█</span>';
+    typingDisplay.innerHTML = html;
+  }
+
+  function decryptChar(index) {
+    if (TARGET[index] === ' ') {
+      chars[index] = ' ';
+      resolved++;
+      if (resolved === TARGET.length) onTypingDone();
+      return;
+    }
+    let cycles = 4 + Math.floor(Math.random() * 5);
+    let count = 0;
+    const interval = setInterval(() => {
+      if (count < cycles) {
+        chars[index] = randomGlyph();
+        renderChars();
+        count++;
+      } else {
+        chars[index] = TARGET[index];
+        renderChars();
+        clearInterval(interval);
+        resolved++;
+        if (resolved === TARGET.length) onTypingDone();
+      }
+    }, 30);
+  }
+
+  for (let i = 0; i < TARGET.length; i++) {
+    setTimeout(() => decryptChar(i), i * 80);
+  }
+}
+
+function onTypingDone() {
+  setTimeout(startGlitch, 1000);
+}
+
+// Phase 2: Glitch
+function startGlitch() {
+  const duration = 3000;
+  const start = Date.now();
+  container.classList.add('shake', 'flicker');
+  document.body.classList.add('glitch-active');
+  typingDisplay.classList.add('chromatic');
+
+  const glitchInterval = setInterval(() => {
+    const elapsed = Date.now() - start;
+    const progress = Math.min(elapsed / duration, 1);
+
+    let text = TARGET.split('');
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] !== ' ' && Math.random() < progress * 0.7) {
+        text[i] = randomGlyph();
+      }
+    }
+
+    const r = Math.min(255, Math.round(255 * progress + 40 * progress));
+    const g = Math.max(0, Math.round(255 * (1 - progress) * (1 - progress * 0.8)));
+    const b = Math.round(100 * progress);
+    typingDisplay.style.color = `rgb(${r}, ${g}, ${b})`;
+
+    if (progress > 0.5) {
+      typingDisplay.classList.remove('chromatic');
+      typingDisplay.classList.add('chromatic-intense');
+    }
+
+    // Add cracks in the last second
+    if (progress > 0.7) {
+      const crackCount = Math.floor((progress - 0.7) / 0.05);
+      drawCracks(crackCount);
+    }
+
+    typingDisplay.innerHTML = text.join('') + '<span class="cursor">█</span>';
+
+    if (elapsed >= duration) {
+      clearInterval(glitchInterval);
+      shatterReveal();
+    }
+  }, 50);
+}
+
+// Draw crack lines on the SVG overlay
+function drawCracks(intensity) {
+  cracksOverlay.style.opacity = '1';
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  const maxCracks = 8 + intensity * 3;
+
+  if (cracksSvg.childElementCount >= maxCracks) return;
+
+  for (let i = cracksSvg.childElementCount; i < maxCracks; i++) {
+    const angle = (Math.PI * 2 * i) / maxCracks + (Math.random() - 0.5) * 0.5;
+    const len = 100 + Math.random() * Math.max(window.innerWidth, window.innerHeight) * 0.5;
+    let path = `M ${cx} ${cy}`;
+    let x = cx, y = cy;
+    const segments = 5 + Math.floor(Math.random() * 6);
+    for (let s = 0; s < segments; s++) {
+      const segLen = len / segments;
+      const wobble = (Math.random() - 0.5) * 0.6;
+      x += Math.cos(angle + wobble) * segLen;
+      y += Math.sin(angle + wobble) * segLen;
+      path += ` L ${x} ${y}`;
+      // Branch
+      if (Math.random() > 0.6) {
+        const branchAngle = angle + (Math.random() - 0.5) * 1.2;
+        const branchLen = segLen * 0.5;
+        const bx = x + Math.cos(branchAngle) * branchLen;
+        const by = y + Math.sin(branchAngle) * branchLen;
+        const branch = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        branch.setAttribute('d', `M ${x} ${y} L ${bx} ${by}`);
+        branch.setAttribute('stroke', 'rgba(180, 120, 255, 0.6)');
+        branch.setAttribute('stroke-width', '1');
+        branch.setAttribute('fill', 'none');
+        cracksSvg.appendChild(branch);
+      }
+    }
+    const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    el.setAttribute('d', path);
+    el.setAttribute('stroke', 'rgba(200, 150, 255, 0.8)');
+    el.setAttribute('stroke-width', '2');
+    el.setAttribute('fill', 'none');
+    cracksSvg.appendChild(el);
+  }
+}
+
+// Phase 3: Screen shatter + skull reveal
+function shatterReveal() {
+  container.classList.remove('shake', 'flicker');
+  document.body.classList.remove('glitch-active');
+  typingDisplay.classList.remove('chromatic', 'chromatic-intense');
+
+  // Create shards covering the screen
+  const cols = 8;
+  const rows = 6;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const shardW = w / cols;
+  const shardH = h / rows;
+  const shards = [];
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const shard = document.createElement('div');
+      shard.className = 'shard';
+      const x = c * shardW;
+      const y = r * shardH;
+
+      // Irregular polygon clip-path for each shard
+      const jitter = () => (Math.random() - 0.5) * 15;
+      const p1 = `${jitter()}px ${jitter()}px`;
+      const p2 = `${shardW + jitter()}px ${jitter()}px`;
+      const p3 = `${shardW + jitter()}px ${shardH + jitter()}px`;
+      const p4 = `${jitter()}px ${shardH + jitter()}px`;
+      shard.style.clipPath = `polygon(${p1}, ${p2}, ${p3}, ${p4})`;
+
+      shard.style.left = x + 'px';
+      shard.style.top = y + 'px';
+      shard.style.width = (shardW + 2) + 'px';
+      shard.style.height = (shardH + 2) + 'px';
+
+      // Color shards with a mix of dark colors and subtle purple tint
+      const brightness = Math.floor(Math.random() * 15) + 5;
+      const purpleTint = Math.random() > 0.7;
+      shard.style.background = purpleTint
+        ? `rgb(${brightness + 10}, ${brightness}, ${brightness + 25})`
+        : `rgb(${brightness}, ${brightness}, ${brightness + 3})`;
+
+      // Some shards have the green text color residue
+      if (Math.random() > 0.8) {
+        shard.style.boxShadow = 'inset 0 0 20px rgba(0, 255, 65, 0.1)';
+      }
+
+      shardsContainer.appendChild(shard);
+      shards.push({ el: shard, x, y });
+    }
+  }
+
+  // Hide typing display immediately
+  typingDisplay.style.display = 'none';
+
+  // Set skull text ready (still invisible)
+  skull.textContent = SKULL;
+
+  // Sequence: flash → shards explode → skull slams in
+  // 1. Bright flash
+  requestAnimationFrame(() => {
+    flashOverlay.style.transition = 'none';
+    flashOverlay.style.opacity = '0.9';
+    flashOverlay.style.background = 'rgba(180, 120, 255, 0.9)';
+
+    setTimeout(() => {
+      // Fade flash
+      flashOverlay.style.transition = 'opacity 0.4s ease-out';
+      flashOverlay.style.opacity = '0';
+
+      // Hide cracks
+      cracksOverlay.style.transition = 'opacity 0.3s';
+      cracksOverlay.style.opacity = '0';
+
+      // 2. Explode shards outward
+      const cx = w / 2;
+      const cy = h / 2;
+      shards.forEach(({ el, x, y }) => {
+        const shardCx = x + shardW / 2;
+        const shardCy = y + shardH / 2;
+        const dx = shardCx - cx;
+        const dy = shardCy - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const force = 1.5 + Math.random() * 2;
+        const tx = dx * force + (Math.random() - 0.5) * 200;
+        const ty = dy * force + (Math.random() - 0.5) * 200;
+        const rot = (Math.random() - 0.5) * 180;
+
+        el.classList.add('shatter');
+        requestAnimationFrame(() => {
+          el.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+          el.style.opacity = '0';
+        });
+      });
+
+      // 3. Skull slams in
+      setTimeout(() => {
+        skull.classList.add('revealed', 'slam-in');
+        container.classList.add('impact-shake');
+
+        setTimeout(() => {
+          container.classList.remove('impact-shake');
+
+          // 4. Title slams in
+          setTimeout(() => {
+            title.classList.add('slam-in');
+
+            // 5. Social links fade in
+            setTimeout(() => {
+              socialLinks.classList.add('visible');
+              // Clean up shards
+              shardsContainer.innerHTML = '';
+
+              // Start idle animations
+              setTimeout(() => {
+                skull.classList.remove('slam-in');
+                skull.classList.add('idle-glow');
+                title.classList.remove('slam-in');
+                title.classList.add('idle-glow');
+                startIdleGlitch();
+              }, 500);
+            }, 600);
+          }, 300);
+        }, 500);
+      }, 150);
+
+    }, 80);
+  });
+}
+
+// Idle: random glitch effects on the skull
+let originalSkullText = SKULL;
+const GLITCH_CLASSES = ['skull-shake', 'skull-chromatic-tear'];
+
+function startIdleGlitch() {
+  scheduleGlitch();
+}
+
+function scheduleGlitch() {
+  const delay = 1500 + Math.random() * 4000;
+  setTimeout(() => {
+    doSkullGlitch();
+    scheduleGlitch();
+  }, delay);
+}
+
+function clearGlitchClasses() {
+  GLITCH_CLASSES.forEach(c => skull.classList.remove(c));
+  skull.classList.remove('h-tear');
+  skull.style.clipPath = '';
+  skull.style.opacity = '';
+  skull.style.transform = '';
+  skull.style.filter = '';
+  skull.style.textShadow = '';
+  skull.classList.add('idle-glow');
+}
+
+function corruptLines(count, intensity) {
+  const lines = originalSkullText.split('\n');
+  const corrupted = [...lines];
+  for (let i = 0; i < count; i++) {
+    const lineIdx = Math.floor(Math.random() * corrupted.length);
+    if (corrupted[lineIdx].trim().length === 0) continue;
+    let chars = corrupted[lineIdx].split('');
+    const numChars = Math.floor(chars.length * intensity);
+    for (let j = 0; j < numChars; j++) {
+      const ci = Math.floor(Math.random() * chars.length);
+      if (chars[ci] !== ' ') {
+        chars[ci] = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      }
+    }
+    corrupted[lineIdx] = chars.join('');
+  }
+  return corrupted.join('\n');
+}
+
+function displaceLines() {
+  // Shift random horizontal slices of the skull left/right
+  const lines = originalSkullText.split('\n');
+  const result = [...lines];
+  const numSlices = 2 + Math.floor(Math.random() * 5);
+  for (let i = 0; i < numSlices; i++) {
+    const start = Math.floor(Math.random() * result.length);
+    const height = 1 + Math.floor(Math.random() * 4);
+    const offset = Math.floor((Math.random() - 0.5) * 20);
+    for (let j = start; j < Math.min(start + height, result.length); j++) {
+      if (offset > 0) {
+        result[j] = ' '.repeat(offset) + result[j];
+      } else {
+        result[j] = result[j].substring(Math.min(Math.abs(offset), result[j].length));
+      }
+    }
+  }
+  return result.join('\n');
+}
+
+function doSkullGlitch() {
+  const type = Math.floor(Math.random() * 6);
+  skull.classList.remove('idle-glow');
+
+  switch (type) {
+    case 0: {
+      // Violent shake + corruption
+      skull.classList.add('skull-shake');
+      skull.textContent = corruptLines(8, 0.4);
+      const dur = 300 + Math.random() * 400;
+      let frames = 0;
+      const corruptInterval = setInterval(() => {
+        skull.textContent = corruptLines(6, 0.3);
+        frames++;
+        if (frames > dur / 60) {
+          clearInterval(corruptInterval);
+          skull.textContent = originalSkullText;
+          clearGlitchClasses();
+        }
+      }, 60);
+      setTimeout(() => {
+        clearInterval(corruptInterval);
+        skull.textContent = originalSkullText;
+        clearGlitchClasses();
+      }, dur + 50);
+      break;
+    }
+    case 1: {
+      // Chromatic tear with line displacement
+      skull.classList.add('skull-chromatic-tear');
+      skull.textContent = displaceLines();
+      const dur = 400 + Math.random() * 300;
+      let tick = 0;
+      const tearInterval = setInterval(() => {
+        skull.textContent = displaceLines();
+        tick++;
+        if (tick > dur / 80) {
+          clearInterval(tearInterval);
+          skull.textContent = originalSkullText;
+          clearGlitchClasses();
+        }
+      }, 80);
+      setTimeout(() => {
+        clearInterval(tearInterval);
+        skull.textContent = originalSkullText;
+        clearGlitchClasses();
+      }, dur + 50);
+      break;
+    }
+    case 2: {
+      // Horizontal tear — clip skull into bands and offset them
+      const totalH = skull.offsetHeight;
+      const tearY = 0.2 + Math.random() * 0.6; // tear position as fraction
+      const tearSize = 0.05 + Math.random() * 0.1;
+      const offsetX = (Math.random() > 0.5 ? 1 : -1) * (8 + Math.random() * 15);
+
+      // Use a wrapper approach: rapidly alternate torn/normal states
+      let frame = 0;
+      const tearDur = 500 + Math.random() * 500;
+      const tearInterval = setInterval(() => {
+        frame++;
+        if (frame % 2 === 0) {
+          const newTearY = tearY + (Math.random() - 0.5) * 0.1;
+          const newOffset = offsetX * (0.5 + Math.random());
+          skull.style.transform = `translateX(${newOffset * (frame % 3 === 0 ? -1 : 1)}px)`;
+          skull.style.textShadow = `-${Math.abs(newOffset)}px 0 #ff0000, ${Math.abs(newOffset)}px 0 #00ffff`;
+          skull.textContent = displaceLines();
+        } else {
+          skull.style.transform = '';
+          skull.style.textShadow = '';
+          skull.textContent = originalSkullText;
+        }
+      }, 50);
+      setTimeout(() => {
+        clearInterval(tearInterval);
+        skull.textContent = originalSkullText;
+        clearGlitchClasses();
+      }, tearDur);
+      break;
+    }
+    case 3: {
+      // Rapid stutter — skull jumps and freezes repeatedly
+      let count = 0;
+      const maxCount = 4 + Math.floor(Math.random() * 4);
+      const stutter = () => {
+        if (count >= maxCount) {
+          skull.textContent = originalSkullText;
+          clearGlitchClasses();
+          return;
+        }
+        const dx = (Math.random() - 0.5) * 16;
+        const dy = (Math.random() - 0.5) * 8;
+        const skew = (Math.random() - 0.5) * 8;
+        skull.style.transform = `translate(${dx}px, ${dy}px) skewX(${skew}deg)`;
+        skull.style.filter = `brightness(${0.5 + Math.random() * 1.5})`;
+        skull.style.textShadow = `${dx}px 0 #ff0000, ${-dx}px 0 #00ffff`;
+        if (Math.random() > 0.4) skull.textContent = corruptLines(4, 0.3);
+        count++;
+        setTimeout(() => {
+          skull.style.transform = '';
+          skull.style.filter = '';
+          skull.style.textShadow = '';
+          skull.textContent = originalSkullText;
+          setTimeout(stutter, 30 + Math.random() * 60);
+        }, 50 + Math.random() * 100);
+      };
+      stutter();
+      break;
+    }
+    case 4: {
+      // Full blackout flash + slam back
+      skull.style.opacity = '0';
+      skull.style.filter = 'brightness(0)';
+      setTimeout(() => {
+        skull.textContent = corruptLines(15, 0.6);
+        skull.style.opacity = '1';
+        skull.style.filter = 'brightness(2.5)';
+        skull.style.transform = 'scale(1.05)';
+        skull.style.textShadow = '0 0 20px #ff0040, -5px 0 #ff0000, 5px 0 #00ffff';
+        setTimeout(() => {
+          skull.style.filter = 'brightness(1)';
+          skull.style.transform = 'scale(1)';
+          skull.style.textShadow = '';
+          skull.textContent = originalSkullText;
+          clearGlitchClasses();
+        }, 200);
+      }, 150);
+      break;
+    }
+    case 5: {
+      // Cascade corruption — lines corrupt top-to-bottom then restore
+      const lines = originalSkullText.split('\n');
+      let currentLine = 0;
+      const cascadeDown = setInterval(() => {
+        if (currentLine >= lines.length) {
+          clearInterval(cascadeDown);
+          // Now restore top to bottom
+          let restoreLine = 0;
+          const cascadeRestore = setInterval(() => {
+            if (restoreLine >= lines.length) {
+              clearInterval(cascadeRestore);
+              skull.textContent = originalSkullText;
+              clearGlitchClasses();
+              return;
+            }
+            const restored = originalSkullText.split('\n');
+            // Lines above restoreLine are normal, lines at/below are still corrupted
+            for (let i = restoreLine; i < restored.length; i++) {
+              let chars = restored[i].split('');
+              for (let j = 0; j < chars.length; j++) {
+                if (chars[j] !== ' ' && Math.random() > 0.3) {
+                  chars[j] = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+                }
+              }
+              restored[i] = chars.join('');
+            }
+            skull.textContent = restored.join('\n');
+            restoreLine += 2;
+          }, 25);
+          return;
+        }
+        const corrupted = originalSkullText.split('\n');
+        for (let i = 0; i <= currentLine; i++) {
+          let chars = corrupted[i].split('');
+          for (let j = 0; j < chars.length; j++) {
+            if (chars[j] !== ' ' && Math.random() > 0.3) {
+              chars[j] = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            }
+          }
+          corrupted[i] = chars.join('');
+        }
+        skull.textContent = corrupted.join('\n');
+        skull.style.textShadow = `-3px 0 rgba(255,0,0,${0.3 + currentLine/lines.length * 0.5}), 3px 0 rgba(0,255,255,${0.3 + currentLine/lines.length * 0.5})`;
+        currentLine += 2;
+      }, 25);
+      break;
+    }
+  }
+}
+
+// Start
+boot();
+</script>
+</body>
+</html>
