@@ -930,11 +930,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1773209425,
-        "narHash": "sha256-10kzUtinPbC+hZ9fp7vtHfWrq1LPV/Ig7nykEOxkJ7Q=",
+        "lastModified": 1773695205,
+        "narHash": "sha256-d1Q6mTJTW5TN7fTzXi5sTbHh3HlHchFEMtJxzukJLxI=",
         "ref": "refs/heads/main",
-        "rev": "7bbe10c675248858108e9b8dbe8f9d64a5032d30",
-        "revCount": 14,
+        "rev": "c0d40749233b69279b32acdd9c743dfe8520f9bf",
+        "revCount": 28,
         "type": "git",
         "url": "ssh://git@github.com/Nub/obsidian-docsite.git"
       },

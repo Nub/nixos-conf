@@ -44,6 +44,10 @@
         client_id = "$GITHUB_CLIENT_ID";
         client_secret = "$GITHUB_CLIENT_SECRET";
       };
+      auth.google = {
+        client_id = "$GOOGLE_CLIENT_ID";
+        client_secret = "$GOOGLE_CLIENT_SECRET";
+      };
       permissions.default_access = "private";
       permissions.admin_emails = ["admin@vothuul.com"];
       permissions.localhost_bypass = true;
