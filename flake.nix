@@ -52,7 +52,10 @@
   in
     # Merge per-system outputs (packages) with system-wide outputs (nixosConfigurations)
     (inputs.utils.lib.eachDefaultSystem (system: let
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in {
       packages = {
         nvim =

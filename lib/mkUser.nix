@@ -52,9 +52,10 @@ in {
       home.packages = with pkgs; [
         blender
         vlc
-       # discord
+        # discord
         alacritty
-       # spotify
+        # spotify
+        upower
         liquidctl
         systemctl-tui
         nix-tree
