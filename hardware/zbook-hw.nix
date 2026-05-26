@@ -6,11 +6,12 @@
   lib,
   pkgs,
   modulesPath,
+  inputs,
   ...
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./apple-silicon-support
+    inputs.nixos-apple-silicon.nixosModules.default
   ];
 
   hardware.asahi.enable = true;
@@ -30,6 +31,7 @@
   };
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.graceful = true;
   boot.loader.efi.canTouchEfiVariables = false;
   boot.initrd.availableKernelModules = ["usb_storage" "sdhci_pci"];
   boot.initrd.kernelModules = [];
