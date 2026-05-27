@@ -45,12 +45,12 @@
   nix.settings.substituters = [
     "https://nix-community.cachix.org"
     "https://nix-gaming.cachix.org"
-	"https://nixos-apple-silicon.cachix.org"
+    "https://nixos-apple-silicon.cachix.org"
   ];
   nix.settings.trusted-public-keys = [
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-"nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="
+    "nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="
   ];
 
   system.stateVersion = "25.11";

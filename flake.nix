@@ -37,6 +37,12 @@
     };
 
     claude-code.url = "github:sadjow/claude-code-nix";
+
+    obsidian-docsite.url = "git+ssh://git@github.com/Nub/obsidian-docsite.git";
+    obsidian-docsite.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon";
+    nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: let
@@ -49,7 +55,10 @@
   in
     # Merge per-system outputs (packages) with system-wide outputs (nixosConfigurations)
     (inputs.utils.lib.eachDefaultSystem (system: let
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in {
       packages = {
         nvim =
