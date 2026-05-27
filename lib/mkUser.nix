@@ -32,11 +32,13 @@ in {
     extraGroups = [
       "networkmanager"
       "wheel"
+      "ydotool"
     ];
     shell = pkgs.fish;
   };
 
   programs.fish.enable = true;
+  programs.ssh.startAgent = true;
 
   home-manager = {
     useUserPackages = true;
@@ -52,9 +54,9 @@ in {
       home.packages = with pkgs; [
         blender
         vlc
-       # discord
+        # discord
         alacritty
-       # spotify
+        # spotify
         liquidctl
         systemctl-tui
         nix-tree

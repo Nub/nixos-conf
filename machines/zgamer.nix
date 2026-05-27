@@ -9,7 +9,6 @@
     ../ui.nix
     ../audio.nix
     ../hyprland.nix
-    ../work.nix
     # ./nordvpn.nix
     ../ai.nix
     # Users
